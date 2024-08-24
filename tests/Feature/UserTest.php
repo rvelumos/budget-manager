@@ -21,7 +21,6 @@ class UserTest extends TestCase
 
         $this->user = User::factory()->create();
         $this->admin = User::factory()->create(['is_admin' => 1]);
-
     }
 
     /** @test */
