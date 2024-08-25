@@ -17,11 +17,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/budget', [IncomeController::class, 'budgetOverview'])->name('budget.index');
 
-    Route::get('/budget/income', [IncomeController::class, 'income'])->name('income.index');
-    Route::post('/budget/income', [IncomeController::class, 'income'])->name('income.form');
-
-    Route::get('/budget/expense', [ExpenseController::class, 'income'])->name('expense.index');
-    Route::post('/budget/expense', [ExpenseController::class, 'income'])->name('income.form');
+    Route::resource('budget/income', PostController::class);
+    Route::resource('budget/expense', PostController::class);
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -29,10 +26,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.users');
 
     Route::get('/admin/categories', [CategoryController::class, 'manageCategories'])->name('admin.categories');
-
-    Route::get('/admin/category/{id}', [CategoryController::class, 'editCategory'])->name('admin.category');
-    Route::put('/admin/category/{id}', [CategoryController::class, 'updateCategory'])->name('admin.update_category');
-    Route::delete('/admin/category/{id}', [CategoryController::class, 'deleteCategory'])->name('admin.delete_category');
+    Route::resource('/admin/category', PostController::class);
 
     Route::post('/admin/category', [CategoryController::class, 'insertCategory'])->name('admin.new_category');
 });

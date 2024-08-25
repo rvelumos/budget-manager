@@ -37,10 +37,10 @@ class CategoryTest extends TestCase
                 'description' => 'Category description',
             ];
 
-            $response = $this->post(route('categories.store'), $data);
+            $response = $this->be($this->admin)
+                            ->post(route('categories.store'), $data);
 
-            // Assert: Check if the category was created successfully
-            $response->assertStatus(201); // Check for the correct status code
+            $response->assertStatus(201);
             $this->assertDatabaseHas('categories', [
                 'name' => 'New Category',
                 'description' => 'This is a new category description',

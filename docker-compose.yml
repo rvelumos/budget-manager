@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+    app:
+        image: 'php:8.3.6-fpm'
+        container_name: budget_manager_app
+        working_dir: /var/www/html
+        volumes:
+            - './:/var/www/html'
+        networks:
+            - budget_manager_network
+    webserver:
+        image: 'nginx:alpine'
+        container_name: budget_manager_webserver
+        restart: unless-stopped
+        ports:
+            - '8002:80'
+        volumes:
+            - './:/var/www/html'
+            - './nginx:/etc/nginx/conf.d'
+        networks:
+            - budget_manager_network
+    db:
+        image: 'mysql:5.7'
+        container_name: budget_manager_db
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: budget_manager
+            MYSQL_USER: developer
+            MYSQL_PASSWORD: secret
+        ports:
+            - '3307:3307'
+        volumes:
+            - 'db_data:/var/lib/mysql'
+        networks:
+            - budget_manager_network
+    redis:
+        image: 'redis:alpine'
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'sail-redis:/data'
+        networks:
+            - sail
+        healthcheck:
+            test:
+                - CMD
+                - redis-cli
+                - ping
+            retries: 3
+            timeout: 5s
+networks:
+    budget_manager_network:
+        driver: bridge
+volumes:
+    db_data:
+        driver: local
+    sail-redis:
+        driver: local
