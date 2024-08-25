@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             IncomeSeeder::class,
             ExpenseSeeder::class,
             TransactionSeeder::class,
+            CategorySeeder::class,
         ]);
     }
 }
