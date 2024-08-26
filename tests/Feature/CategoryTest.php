@@ -29,6 +29,23 @@ class CategoryTest extends TestCase
 
     }
 
+    /** @test */
+    public function expect_a_description_can_only_added_once()
+    {
+
+        $category = Category::factory()->create(['name' => 'Groceries']);
+
+        $response = $this->post(route('category.store'), [
+            'name' => 'Groceries',
+            'description' => 'This should fail',
+        ]);
+
+        $response->assertSessionHasErrors('name');
+
+        $this->assertEquals(1, Category::where('name', 'Groceries')->count());
+
+    }
+
     public function expect_an_admin_can_create_a_category()
         {
 
