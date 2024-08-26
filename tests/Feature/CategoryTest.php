@@ -30,7 +30,7 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
-    public function expect_a_description_can_only_added_once()
+    public function expect_a_category_name_can_only_added_once()
     {
 
         $category = Category::factory()->create(['name' => 'Groceries']);
