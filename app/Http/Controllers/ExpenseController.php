@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -12,7 +13,9 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
+        $expenses = Expense::with('category')->get();
+
+        return view('expense.index', compact('expenses'));
     }
 
     /**
@@ -20,7 +23,8 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('expense.create', compact('categories'));
     }
 
     /**
@@ -28,7 +32,17 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'date' => 'required|date',
+            'description' => 'nullable|string|max:255',
+        ]);
+
+        Expense::create($request->all());
+
+        return redirect()->route('expense.index')
+                         ->with('success', 'Expense created successfully.');
     }
 
     /**
@@ -36,7 +50,7 @@ class ExpenseController extends Controller
      */
     public function show(Expense $expense)
     {
-        //
+        return view('expense.show', compact('expense'));
     }
 
     /**
@@ -44,7 +58,8 @@ class ExpenseController extends Controller
      */
     public function edit(Expense $expense)
     {
-        //
+        $categories = Category::all();
+        return view('expense.edit', compact('expense', 'categories'));
     }
 
     /**
@@ -52,7 +67,17 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, Expense $expense)
     {
-        //
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'date' => 'required|date',
+            'description' => 'nullable|string|max:255',
+        ]);
+
+        $expense->update($request->all());
+
+        return redirect()->route('expense.index')
+                         ->with('success', 'Expense updated successfully.');
     }
 
     /**
@@ -60,6 +85,9 @@ class ExpenseController extends Controller
      */
     public function destroy(Expense $expense)
     {
-        //
+        $expense->delete();
+
+        return redirect()->route('expense.index')
+                         ->with('success', 'Expense deleted successfully.');
     }
 }

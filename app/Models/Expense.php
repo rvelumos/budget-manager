@@ -9,5 +9,10 @@ class Expense extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','category_id','amount','date'];
+    protected $fillable = ['amount', 'category_id', 'date', 'description', 'user_id', 'expense_listing_id'];
+
+    public function expenseList()
+    {
+        return $this->belongsTo(ExpenseList::class);
+    }
 }
