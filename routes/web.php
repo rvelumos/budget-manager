@@ -8,17 +8,18 @@ use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
-    return view('home');
+    return view('index');
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/account', [UserController::class, 'account'])->name('user.account');
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
 
-    Route::get('/budget', [IncomeController::class, 'budgetOverview'])->name('budget.index');
+    Route::resource('/income-listings', ExpenseListController::class);
+    Route::resource('/income-listings.expenses', ExpenseController::class);
 
-    Route::resource('budget/income', PostController::class);
-    Route::resource('budget/expense', PostController::class);
+    Route::resource('/expense-listings', ExpenseListController::class);
+    Route::resource('/expense-listings.expenses', ExpenseController::class);
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

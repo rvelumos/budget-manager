@@ -4,90 +4,77 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use App\Models\Category;
+use App\Models\ExpenseList;
 use Illuminate\Http\Request;
+
 
 class ExpenseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+     public function index(ExpenseList $expenseList)
     {
-        $expenses = Expense::with('category')->get();
+        $expenses = $expenseList->expenses()->with('category')->get();
 
-        return view('expense.index', compact('expenses'));
+        return view('expenses.index', compact('expenseList', 'expenses'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+     public function create(ExpenseList $expenseList)
     {
-        $categories = Category::all();
-        return view('expense.create', compact('categories'));
+        return view('expenses.create', compact('expenseList'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request, ExpenseList $expenseList)
     {
         $request->validate([
             'amount' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'date' => 'required|date',
-            'description' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
-        Expense::create($request->all());
+        $expenseList->expenses()->create([
+            'amount' => $request->amount,
+            'category_id' => $request->category_id,
+            'date' => $request->date,
+            'description' => $request->description,
+            'user_id' => auth()->id(),
+        ]);
 
-        return redirect()->route('expense.index')
-                         ->with('success', 'Expense created successfully.');
+        return redirect()->route('expense-lists.expenses.index', $expenseList)->with('success', 'Expense added successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Expense $expense)
+    public function show(ExpenseList $expenseList, Expense $expense)
     {
-        return view('expense.show', compact('expense'));
+        return view('expenses.show', compact('expenseList', 'expense'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Expense $expense)
+    public function edit(ExpenseList $expenseList, Expense $expense)
     {
-        $categories = Category::all();
-        return view('expense.edit', compact('expense', 'categories'));
+        return view('expenses.edit', compact('expenseList', 'expense'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Expense $expense)
+    public function update(Request $request, ExpenseList $expenseList, Expense $expense)
     {
         $request->validate([
             'amount' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'date' => 'required|date',
-            'description' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
         $expense->update($request->all());
 
-        return redirect()->route('expense.index')
-                         ->with('success', 'Expense updated successfully.');
+        return redirect()->route('expense-lists.expenses.index', $expenseList)->with('success', 'Expense updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Expense $expense)
+    public function destroy(ExpenseList $expenseList, Expense $expense)
     {
         $expense->delete();
-
-        return redirect()->route('expense.index')
-                         ->with('success', 'Expense deleted successfully.');
+        return redirect()->route('expense-lists.expenses.index', $expenseList)->with('success', 'Expense deleted successfully.');
     }
 }

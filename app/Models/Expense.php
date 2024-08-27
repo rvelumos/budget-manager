@@ -15,4 +15,9 @@ class Expense extends Model
     {
         return $this->belongsTo(ExpenseList::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
