@@ -5,6 +5,10 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\ExpenseListing;
+use App\Models\Expense;
+use App\Models\User;
+
 
 class ExpenseListingTest extends TestCase
 {
@@ -18,10 +22,10 @@ class ExpenseListingTest extends TestCase
 
         $this->adminUser = User::factory()->create(['is_admin' => true]);
 
-        $this->expenseList = ExpenseList::factory()->create(['user_id' => $this->user1->id]);
+        $this->expenseList = ExpenseListing::factory()->create(['user_id' => $this->user1->id]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function expect_only_authenticated_user_can_access_listing_page()
     {
         $this->get('/expense-listings')
@@ -33,7 +37,7 @@ class ExpenseListingTest extends TestCase
 
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function expect_an_admin_cannot_see_normal_user_expense_listing()
     {
 
@@ -44,7 +48,7 @@ class ExpenseListingTest extends TestCase
         $response->assertStatus(403);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function expect_a_user_cannot_create_more_than_10_expense_listings()
     {
 

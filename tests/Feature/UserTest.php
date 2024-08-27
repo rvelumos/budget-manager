@@ -23,7 +23,7 @@ class UserTest extends TestCase
         $this->admin = User::factory()->create(['is_admin' => 1]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function expect_authenticated_user_can_access_account_page()
     {
         $this->get('/account')
@@ -36,7 +36,7 @@ class UserTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function expect_authenticated_user_cannot_access_admin_page()
     {
 

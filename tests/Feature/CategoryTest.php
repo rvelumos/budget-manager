@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Category;
 
 class CategoryTest extends TestCase
 {
@@ -19,7 +21,7 @@ class CategoryTest extends TestCase
         $this->admin = User::factory()->create(['is_admin' => 1]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function expect_only_admin_user_can_view_category_page()
     {
 
@@ -29,7 +31,7 @@ class CategoryTest extends TestCase
 
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function expect_a_category_name_can_only_added_once()
     {
 
@@ -46,6 +48,7 @@ class CategoryTest extends TestCase
 
     }
 
+    #[\PHPUnit\Framework\Attributes\Test]
     public function expect_an_admin_can_create_a_category()
         {
 
