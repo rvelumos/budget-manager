@@ -22,7 +22,7 @@ class CategoryTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_only_admin_user_can_view_category_page()
+    public function expect_only_admin_user_can_view_category_page(): void
     {
 
         $this->be($this->user)
@@ -32,7 +32,7 @@ class CategoryTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_a_category_name_can_only_added_once()
+    public function expect_a_category_name_can_only_added_once(): void
     {
 
         $category = Category::factory()->create(['name' => 'Groceries']);
@@ -49,7 +49,7 @@ class CategoryTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_an_admin_can_create_a_category()
+    public function expect_an_admin_can_create_a_category(): void
         {
 
             $data = [

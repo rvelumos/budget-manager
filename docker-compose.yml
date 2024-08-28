@@ -1,59 +1,65 @@
 version: '3.8'
+
 services:
+    # PHP Service
     app:
-        image: 'php:8.3.6-fpm'
-        container_name: budget_manager_app
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: budget-manager-app
+        container_name: budget-manager-app
+        restart: unless-stopped
         working_dir: /var/www/html
         volumes:
-            - './:/var/www/html'
+            - .:/var/www/html
+        environment:
+            - APP_ENV=local
+            - APP_DEBUG=true
+            - APP_KEY=base64:your-app-key-here
+            - DB_CONNECTION=mysql
+            - DB_HOST=db
+            - DB_PORT=3306
+            - DB_DATABASE=laravel
+            - DB_USERNAME=root
+            - DB_PASSWORD=secret
         networks:
-            - budget_manager_network
-    webserver:
-        image: 'nginx:alpine'
-        container_name: budget_manager_webserver
-        restart: unless-stopped
-        ports:
-            - '8002:80'
-        volumes:
-            - './:/var/www/html'
-            - './nginx:/etc/nginx/conf.d'
-        networks:
-            - budget_manager_network
+            - laravel
+
+    # MySQL Service
     db:
-        image: 'mysql:5.7'
-        container_name: budget_manager_db
+        image: mysql:8.0
+        container_name: laravel-db
         restart: unless-stopped
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: budget_manager
-            MYSQL_USER: developer
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: laravel
+            MYSQL_USER: root
             MYSQL_PASSWORD: secret
-        ports:
-            - '3307:3307'
         volumes:
-            - 'db_data:/var/lib/mysql'
-        networks:
-            - budget_manager_network
-    redis:
-        image: 'redis:alpine'
+            - dbdata:/var/lib/mysql
         ports:
-            - '${FORWARD_REDIS_PORT:-6379}:6379'
-        volumes:
-            - 'sail-redis:/data'
+            - "3306:3306"
         networks:
-            - sail
-        healthcheck:
-            test:
-                - CMD
-                - redis-cli
-                - ping
-            retries: 3
-            timeout: 5s
-networks:
-    budget_manager_network:
-        driver: bridge
+            - laravel
+
+    # Nginx Service
+    web:
+        image: nginx:alpine
+        container_name: laravel-web
+        restart: unless-stopped
+        ports:
+            - "8080:80"
+        volumes:
+            - .:/var/www/html
+            - ./nginx/conf.d:/etc/nginx/conf.d
+        networks:
+            - laravel
+
+# Volumes
 volumes:
-    db_data:
-        driver: local
-    sail-redis:
-        driver: local
+    dbdata:
+
+# Networks
+networks:
+    laravel:
+        driver: bridge

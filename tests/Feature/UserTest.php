@@ -24,7 +24,7 @@ class UserTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_authenticated_user_can_access_account_page()
+    public function expect_authenticated_user_can_access_account_page(): void
     {
         $this->get('/account')
             ->assertRedirect('login');
@@ -33,11 +33,10 @@ class UserTest extends TestCase
             ->get("/account")
             ->assertStatus(200);
 
-        $response->assertRedirect('/login');
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_authenticated_user_cannot_access_admin_page()
+    public function expect_authenticated_user_cannot_access_admin_page(): void
     {
 
         $this->be($this->user)

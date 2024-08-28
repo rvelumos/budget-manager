@@ -24,17 +24,16 @@ class ExpenseTest extends TestCase
         $this->adminUser = User::factory()->create(['is_admin' => true]);
 
         $this->expenseList = ExpenseListing::factory()->create(['user_id' => $this->user1->id]);
-    }
-
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_a_expense_name_can_only_added_once_to_an_expense_listing()
-    {
-
-        $expense = Expense::factory()->create([
+        $this->expense = Expense::factory()->create([
             'name' => 'Insurance',
             'expense_list_id' => $this->expenseList->id,
             'user_id' => $this->user1->id,
         ]);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function expect_a_expense_name_can_only_added_once_to_an_expense_listing(): void
+    {
 
         $response = $this->actingAs($this->user1)->post(route('expense-lists.expenses.store', $this->expenseList), [
             'name' => 'Insurance',
@@ -50,7 +49,7 @@ class ExpenseTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_expense_amount_can_only_be_numeric_and_not_negative()
+    public function expect_expense_amount_can_only_be_numeric_and_not_negative(): void
     {
 
         $this->actingAs($this->user1);
@@ -90,38 +89,28 @@ class ExpenseTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_user_cannot_delete_another_users_expense()
+    public function expect_user_cannot_delete_another_users_expense(): void
     {
-
-       $expense = Expense::factory()->create([
-           'user_id' => $this->user1->id,
-           'expense_list_id' => $this->expenseList->id,
-       ]);
 
        $this->actingAs($this->user2);
 
-       $response = $this->delete(route('expense-lists.expenses.destroy', [$this->expenseList, $expense]));
+       $response = $this->delete(route('expense-lists.expenses.destroy', [$this->expenseList, $this->expense]));
 
        $response->assertStatus(403);
 
-       $this->assertDatabaseHas('expenses', ['id' => $expense->id]);
+       $this->assertDatabaseHas('expenses', ['id' => $this->expense->id]);
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_user_can_delete_their_own_expense()
+    public function expect_user_can_delete_their_own_expense(): void
     {
-
-       $expense = Expense::factory()->create([
-           'user_id' => $this->user1->id,
-           'expense_list_id' => $this->expenseList->id,
-       ]);
 
        $this->actingAs($this->user1);
 
-       $response = $this->delete(route('expense-lists.expenses.destroy', [$this->expenseList, $expense]));
+       $response = $this->delete(route('expense-lists.expenses.destroy', [$this->expenseList, $this->expense]));
 
        $response->assertRedirect(route('expense-lists.expenses.index', $this->expenseList->id));
 
-       $this->assertDatabaseMissing('expenses', ['id' => $expense->id]);
+       $this->assertDatabaseMissing('expenses', ['id' => $this->expense->id]);
     }
 }

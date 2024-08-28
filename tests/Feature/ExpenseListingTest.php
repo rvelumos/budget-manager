@@ -26,22 +26,22 @@ class ExpenseListingTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_only_authenticated_user_can_access_listing_page()
+    public function expect_only_authenticated_user_can_access_listing_page(): void
     {
         $this->get('/expense-listings')
             ->assertRedirect('login');
 
-        $this->be($this->user)
+        $this->be($this->user1)
             ->get("/expense-listings")
             ->assertStatus(200);
 
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_an_admin_cannot_see_normal_user_expense_listing()
+    public function expect_an_admin_cannot_see_normal_user_expense_listing(): void
     {
 
-        $expense = Expense::factory()->create(['user_id' => $this->user->id]);
+        $expense = Expense::factory()->create(['user_id' => $this->user1->id]);
 
         $response = $this->actingAs($this->adminUser)->get(route('expense-listings.show', $expense));
 
@@ -49,12 +49,12 @@ class ExpenseListingTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_a_user_cannot_create_more_than_10_expense_listings()
+    public function expect_a_user_cannot_create_more_than_10_expense_listings(): void
     {
 
-        ExpenseListing::factory()->count(10)->create(['user_id' => $user->id]);
+        ExpenseListing::factory()->count(10)->create(['user_id' => $this->user1->id]);
 
-        $response = $this->actingAs($user)->post(route('expense-lists.store'), [
+        $response = $this->actingAs($this->user1)->post(route('expense-lists.store'), [
             'name' => 'New Expense List'
         ]);
 
