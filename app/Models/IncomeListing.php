@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Expense;
+use App\Models\Income;
 
-class ExpenseListing extends Model
+class IncomeListing extends Model
 {
     use HasFactory;
 
     protected $fillable = ['name', 'user_id'];
 
-    public function expenses()
+    public function incomes()
     {
-        return $this->hasMany(Expense::class);
+        return $this->hasMany(Income::class);
     }
 
     public function user()
