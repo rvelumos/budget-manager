@@ -6,10 +6,12 @@ use App\Models\Expense;
 use App\Models\Category;
 use App\Models\ExpenseList;
 use Illuminate\Http\Request;
+use App\Traits\HasCurrentMonthData;
 
 
 class ExpenseController extends Controller
 {
+    use HasCurrentMonthData;
     /**
      * Display a listing of the resource.
      */
@@ -76,5 +78,10 @@ class ExpenseController extends Controller
     {
         $expense->delete();
         return redirect()->route('expense-lists.expenses.index', $expenseList)->with('success', 'Expense deleted successfully.');
+    }
+
+    public function currentMonth()
+    {
+        return $this->currentMonthExpenses();
     }
 }

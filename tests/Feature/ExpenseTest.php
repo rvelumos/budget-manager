@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Expense;
+use App\Models\Category;
 use App\Models\ExpenseListing;
 
 class ExpenseTest extends TestCase
@@ -22,10 +23,11 @@ class ExpenseTest extends TestCase
         $this->user2 = User::factory()->create();
 
         $this->adminUser = User::factory()->create(['is_admin' => true]);
+        $this->category = Category::factory()->create(['id' => 1, 'type' => 'expense']);
 
         $this->expenseList = ExpenseListing::factory()->create(['user_id' => $this->user1->id]);
         $this->expense = Expense::factory()->create([
-            'name' => 'Insurance',
+            'category_id' => $this->category->id,
             'expense_list_id' => $this->expenseList->id,
             'user_id' => $this->user1->id,
         ]);

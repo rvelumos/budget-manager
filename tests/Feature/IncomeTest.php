@@ -7,11 +7,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\IncomeListing;
+use App\Models\Category;
 use App\Models\Income;
 use App\Models\User;
 
 class IncomeTest extends TestCase
 {
+
+    use RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -21,10 +24,11 @@ class IncomeTest extends TestCase
         $this->user2 = User::factory()->create();
 
         $this->adminUser = User::factory()->create(['is_admin' => true]);
+        $this->category = Category::factory()->create(['id' => 1, 'type' => 'expense']);
 
         $this->incomeListing = IncomeListing::factory()->create(['user_id' => $this->user1->id]);
         $this->income = Income::factory()->create([
-            'name' => 'Salary husband',
+            'category_id' => $this->category->id,
             'income_list_id' => $this->incomeListing->id,
             'user_id' => $this->user1->id,
         ]);

@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\ExpenseListingController;
+use App\Http\Controllers\IncomeListingController;
 use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
@@ -15,11 +17,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account', [UserController::class, 'account'])->name('user.account');
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
 
-    Route::resource('/income-listings', ExpenseListController::class);
+    Route::resource('/income-listings', ExpenseListingController::class);
     Route::resource('/income-listings.expenses', ExpenseController::class);
 
-    Route::resource('/expense-listings', ExpenseListController::class);
-    Route::resource('/expense-listings.expenses', ExpenseController::class);
+    Route::resource('/expense-listings', IncomeListingController::class);
+    Route::resource('/expense-listings.expenses', IncomeController::class);
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

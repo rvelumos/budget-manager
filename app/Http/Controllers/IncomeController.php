@@ -62,4 +62,9 @@ class IncomeController extends Controller
     {
         //
     }
+
+    public function currentMonth()
+    {
+        return $this->currentMonthIncomes();
+    }
 }

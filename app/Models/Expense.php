@@ -13,7 +13,7 @@ class Expense extends Model
 
     public function expenseList()
     {
-        return $this->belongsTo(ExpenseList::class);
+        return $this->belongsTo(ExpenseListing::class);
     }
 
     public function category()

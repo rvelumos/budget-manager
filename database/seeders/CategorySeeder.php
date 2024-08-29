@@ -14,6 +14,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::factory()->count(50)->create();
+        Category::factory()->count(3)->create(['type' => 'income']);
+        Category::factory()->count(15)->create(['type' => 'expense']);
     }
 }
