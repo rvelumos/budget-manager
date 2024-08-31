@@ -8,28 +8,41 @@ use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ExpenseListingController;
 use App\Http\Controllers\IncomeListingController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AuthController;
 
-Route::get('/', function () {
-    return view('index');
+Route::middleware(['setLocale'])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::get('locale/{lang}', function ($lang) {
+        if (in_array($lang, ['en', 'nl'])) {
+            session(['locale' => $lang]);
+        }
+        return redirect()->back();
+    })->name('locale');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/account', [UserController::class, 'account'])->name('user.account');
-    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
 
-    Route::resource('/income-listings', ExpenseListingController::class);
-    Route::resource('/income-listings.expenses', ExpenseController::class);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::resource('/expense-listings', IncomeListingController::class);
-    Route::resource('/expense-listings.expenses', IncomeController::class);
-});
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('expenses', ExpenseController::class);
+    Route::resource('income', IncomeController::class);
+    Route::get('transactions/import', [TransactionController::class, 'import'])->name('transactions.import');
+    Route::get('forecast', [ForecastController::class, 'index'])->name('forecast');
+    Route::get('account/settings', [AccountController::class, 'settings'])->name('account.settings');
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.users');
+    Route::middleware('admin')->group(function () {
+        Route::get('admin/users', [AdminController::class, 'userOverview'])->name('admin.users');
+        Route::get('admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
 
-    Route::get('/admin/categories', [CategoryController::class, 'manageCategories'])->name('admin.categories');
-    Route::resource('/admin/category', PostController::class);
-
-    Route::post('/admin/category', [CategoryController::class, 'insertCategory'])->name('admin.new_category');
+        Route::get('/admin/categories', [CategoryController::class, 'manageCategories'])->name('admin.categories');
+        Route::resource('/admin/category', PostController::class);
+    });
 });
