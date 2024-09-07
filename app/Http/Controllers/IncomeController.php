@@ -7,64 +7,72 @@ use Illuminate\Http\Request;
 
 class IncomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $incomes = Income::where('user_id', Auth::id())->with('category')->get();
+        return view('income.index', compact('incomes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $categories = Category::where('type', 'income')->get(); // Fetch categories of type income
+        return view('income.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'date' => 'required|date',
+            'description' => 'nullable|string',
+        ]);
+
+        Income::create([
+            'user_id' => Auth::id(),
+            'amount' => $request->amount,
+            'category_id' => $request->category_id,
+            'date' => $request->date,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('incomes.index')->with('success', 'Income created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Income $income)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Income $income)
     {
-        //
+        $this->authorize('update', $income);
+        $categories = Category::where('type', 'income')->get();
+        return view('income.edit', compact('income', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Income $income)
     {
-        //
+        $this->authorize('update', $income);
+
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'date' => 'required|date',
+            'description' => 'nullable|string',
+        ]);
+
+        $income->update([
+            'amount' => $request->amount,
+            'category_id' => $request->category_id,
+            'date' => $request->date,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Income $income)
     {
-        //
-    }
+        $this->authorize('delete', $income);
+        $income->delete();
 
-    public function currentMonth()
-    {
-        return $this->currentMonthIncomes();
+        return redirect()->route('incomes.index')->with('success', 'Income deleted successfully.');
     }
 }

@@ -34,18 +34,21 @@ class ExpenseListingingController extends Controller
         return view('expense-listings.show', compact('ExpenseListing'));
     }
 
-    public function edit(ExpenseListing $ExpenseListing)
+    public function edit(ExpenseListing $expenseListing)
     {
-        return view('expense-listings.edit', compact('ExpenseListing'));
+        return view('expenselistings.edit', compact('expenseListing'));
     }
 
-    public function update(Request $request, ExpenseListing $ExpenseListing)
+    public function update(Request $request, ExpenseListing $expenseListing)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
 
-        $ExpenseListing->update(['name' => $request->name]);
+        $expenseListing->update($request->only(['name', 'description']));
 
-        return redirect()->route('expense-listings.index')->with('success', 'Expense list updated successfully.');
+        return redirect()->route('expenselistings.index')->with('success', __('messages.expense_listing_updated'));
     }
 
     public function destroy(ExpenseListing $ExpenseListing)

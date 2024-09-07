@@ -34,18 +34,21 @@ class IncomeListingController extends Controller
         return view('income-listings.show', compact('IncomeListing'));
     }
 
-    public function edit(IncomeListing $IncomeListing)
+    public function edit(IncomeListing $incomeListing)
     {
-        return view('income-listings.edit', compact('IncomeListing'));
+        return view('incomelistings.edit', compact('incomeListing'));
     }
 
-    public function update(Request $request, IncomeListing $IncomeListing)
+    public function update(Request $request, IncomeListing $incomeListing)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
 
-        $IncomeListing->update(['name' => $request->name]);
+        $incomeListing->update($request->only(['name', 'description']));
 
-        return redirect()->route('income-listings.index')->with('success', 'Income list updated successfully.');
+        return redirect()->route('incomelistings.index')->with('success', __('messages.income_listing_updated'));
     }
 
     public function destroy(IncomeListing $IncomeListing)
