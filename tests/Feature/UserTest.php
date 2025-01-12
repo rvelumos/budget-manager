@@ -2,14 +2,15 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
+    use FastRefreshDatabase;
 
     protected $user;
 
@@ -23,7 +24,7 @@ class UserTest extends TestCase
         $this->admin = User::factory()->create(['is_admin' => 1]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function expect_authenticated_user_can_access_account_page(): void
     {
         $this->get('/account')
@@ -35,7 +36,7 @@ class UserTest extends TestCase
 
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function expect_authenticated_user_cannot_access_admin_page(): void
     {
 

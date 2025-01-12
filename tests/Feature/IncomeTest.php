@@ -2,7 +2,8 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -14,7 +15,7 @@ use App\Models\User;
 class IncomeTest extends TestCase
 {
 
-    use RefreshDatabase;
+    use FastRefreshDatabase;
 
     protected function setUp(): void
     {
@@ -34,7 +35,7 @@ class IncomeTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function expect_income_amount_can_only_be_numeric_and_not_negative(): void
     {
 
@@ -74,7 +75,7 @@ class IncomeTest extends TestCase
         $response->assertSessionHasErrors('amount');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function expect_user_cannot_delete_another_users_income(): void
     {
 
@@ -87,7 +88,7 @@ class IncomeTest extends TestCase
        $this->assertDatabaseHas('incomes', ['id' => $this->income->id]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function expect_user_can_delete_their_own_income(): void
     {
 

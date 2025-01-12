@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Test;
+use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Expense;
@@ -13,7 +14,7 @@ use App\Models\ExpenseListing;
 class ExpenseTest extends TestCase
 {
 
-    use RefreshDatabase;
+    use FastRefreshDatabase;
 
     protected function setUp(): void
     {
@@ -33,8 +34,8 @@ class ExpenseTest extends TestCase
         ]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function expect_a_expense_name_can_only_added_once_to_an_expense_listing(): void
+    #[Test]
+    public function expect_an_expense_name_can_only_added_once_to_an_expense_listing(): void
     {
 
         $response = $this->actingAs($this->user1)->post(route('expense-lists.expenses.store', $this->expenseList), [
@@ -50,7 +51,7 @@ class ExpenseTest extends TestCase
         $this->assertEquals(1, Expense::where('name', 'Insurance')->where('expense_list_id', $this->expenseList->id)->count());
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function expect_expense_amount_can_only_be_numeric_and_not_negative(): void
     {
 
@@ -90,7 +91,7 @@ class ExpenseTest extends TestCase
         $response->assertSessionHasErrors('amount');
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function expect_user_cannot_delete_another_users_expense(): void
     {
 
@@ -103,7 +104,7 @@ class ExpenseTest extends TestCase
        $this->assertDatabaseHas('expenses', ['id' => $this->expense->id]);
     }
 
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function expect_user_can_delete_their_own_expense(): void
     {
 
