@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Income;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class IncomeController extends Controller
 {
+
+    use AuthorizesRequests;
 
     public function index()
     {
