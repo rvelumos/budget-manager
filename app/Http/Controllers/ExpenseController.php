@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use App\Models\Category;
-use App\Models\ExpenseList;
+use App\Models\ExpenseListing;
 use Illuminate\Http\Request;
 use App\Traits\HasCurrentMonthData;
 

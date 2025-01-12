@@ -41,7 +41,7 @@ class IncomeTest extends TestCase
 
         $this->actingAs($this->user1);
 
-        $response = $this->post(route('income-lists.incomes.store', $this->incomeListing->id), [
+        $response = $this->post(route('incomes.store', $this->incomeListing->id), [
             'name' => 'Valid income',
             'amount' => 2100,
             'category_id' => 1,
@@ -50,9 +50,9 @@ class IncomeTest extends TestCase
             'income_list_id' => $this->incomeListing->id,
         ]);
 
-        $response->assertRedirect(route('income-lists.incomes.index', $this->incomeListing->id));
+        $response->assertRedirect(route('incomes.index', $this->incomeListing->id));
 
-        $response = $this->post(route('income-lists.incomes.store', $this->incomeListing->id), [
+        $response = $this->post(route('incomes.store', $this->incomeListing->id), [
             'name' => 'Negative income',
             'amount' => -50,
             'category_id' => 1,
@@ -63,7 +63,7 @@ class IncomeTest extends TestCase
 
         $response->assertSessionHasErrors('amount');
 
-        $response = $this->post(route('income-lists.incomes.store', $this->incomeListing->id), [
+        $response = $this->post(route('incomes.store', $this->incomeListing->id), [
             'name' => 'Non-Numeric income',
             'amount' => 'Blablabla',
             'category_id' => 1,
@@ -81,7 +81,7 @@ class IncomeTest extends TestCase
 
        $this->actingAs($this->user2);
 
-       $response = $this->delete(route('income-lists.incomes.destroy', [$this->incomeListing, $this->income]));
+       $response = $this->delete(route('incomes.destroy', [$this->incomeListing, $this->income]));
 
        $response->assertStatus(403);
 
@@ -94,9 +94,9 @@ class IncomeTest extends TestCase
 
        $this->actingAs($this->user1);
 
-       $response = $this->delete(route('income-lists.incomes.destroy', [$this->incomeListing, $this->income]));
+       $response = $this->delete(route('incomes.destroy', [$this->incomeListing, $this->income]));
 
-       $response->assertRedirect(route('income-lists.incomes.index', $this->incomeListing->id));
+       $response->assertRedirect(route('incomes.index', $this->incomeListing->id));
 
        $this->assertDatabaseMissing('incomes', ['id' => $this->income->id]);
     }

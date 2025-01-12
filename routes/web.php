@@ -35,7 +35,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::resource('expenses', ExpenseController::class);
-    Route::resource('income', IncomeController::class);
+    Route::resource('incomes', IncomeController::class);
     Route::get('transactions/import', [TransactionController::class, 'import'])->name('transactions.import');
     Route::get('forecast', [ForecastController::class, 'index'])->name('forecast');
     Route::get('account/settings', [AccountController::class, 'settings'])->name('account.settings');
