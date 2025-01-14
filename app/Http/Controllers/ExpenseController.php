@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
-use App\Models\Category;
 use App\Models\ExpenseListing;
 use Illuminate\Http\Request;
 use App\Traits\HasCurrentMonthData;
@@ -12,9 +11,7 @@ use App\Traits\HasCurrentMonthData;
 class ExpenseController extends Controller
 {
     use HasCurrentMonthData;
-    /**
-     * Display a listing of the resource.
-     */
+
      public function index(ExpenseListing $expenseList)
     {
         $expenses = $expenseList->expenses()->with('category')->get();
@@ -22,9 +19,6 @@ class ExpenseController extends Controller
         return view('expenses.index', compact('expenseList', 'expenses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
      public function create(ExpenseListing $expenseList)
     {
         return view('expenses.create', compact('expenseList'));
@@ -48,11 +42,6 @@ class ExpenseController extends Controller
         ]);
 
         return redirect()->route('expense-lists.expenses.index', $expenseList)->with('success', 'Expense added successfully.');
-    }
-
-    public function show(ExpenseListing $expenseList, Expense $expense)
-    {
-        return view('expenses.show', compact('expenseList', 'expense'));
     }
 
     public function edit(ExpenseListing $expenseList, Expense $expense)

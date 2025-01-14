@@ -20,7 +20,6 @@ class ExpenseListingTest extends TestCase
         parent::setUp();
 
         $this->user1 = User::factory()->create();
-
         $this->adminUser = User::factory()->create(['is_admin' => true]);
 
         $this->expenseList = ExpenseListing::factory()->create(['user_id' => $this->user1->id]);

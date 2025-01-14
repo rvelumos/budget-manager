@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Income;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -19,7 +20,7 @@ class IncomeController extends Controller
 
     public function create()
     {
-        $categories = Category::where('type', 'income')->get(); // Fetch categories of type income
+        $categories = Category::where('type', 'income')->get();
         return view('income.create', compact('categories'));
     }
 

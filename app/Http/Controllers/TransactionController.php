@@ -23,11 +23,6 @@ class TransactionController extends Controller
 
     }
 
-    public function show(Transaction $transaction)
-    {
-
-    }
-
     public function edit(Transaction $transaction)
     {
 

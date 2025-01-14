@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\IncomeListing;
+use http\Client\Request;
 
 class IncomeListingController extends Controller
 {
@@ -27,11 +28,6 @@ class IncomeListingController extends Controller
         ]);
 
         return redirect()->route('income-listings.index')->with('success', 'Income list created successfully.');
-    }
-
-    public function show(IncomeListing $IncomeListing)
-    {
-        return view('income-listings.show', compact('IncomeListing'));
     }
 
     public function edit(IncomeListing $incomeListing)

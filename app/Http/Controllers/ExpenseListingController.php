@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\ExpenseListing;
+use http\Client\Request;
 
 class ExpenseListingingController extends Controller
 {
@@ -27,11 +28,6 @@ class ExpenseListingingController extends Controller
         ]);
 
         return redirect()->route('expense-listings.index')->with('success', 'Expense list created successfully.');
-    }
-
-    public function show(ExpenseListing $ExpenseListing)
-    {
-        return view('expense-listings.show', compact('ExpenseListing'));
     }
 
     public function edit(ExpenseListing $expenseListing)

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -37,7 +36,7 @@ class CategoryTest extends TestCase
     public function expect_a_category_name_can_only_added_once(): void
     {
 
-        $category = Category::factory()->create(['name' => 'Groceries']);
+        Category::factory()->create(['name' => 'Groceries']);
 
         $response = $this->post(route('category.store'), [
             'name' => 'Groceries',
