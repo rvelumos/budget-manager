@@ -36,7 +36,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::resource('expenses', ExpenseController::class);
     Route::resource('incomes', IncomeController::class);
+
+    Route::resource('transactions', TransactionController::class);
     Route::get('transactions/import', [TransactionController::class, 'import'])->name('transactions.import');
+    Route::post('transactions/import', [TransactionController::class, 'storeImport'])->name('transactions.storeImport');
+
     Route::get('forecast', [ForecastController::class, 'index'])->name('forecast');
     Route::get('account/settings', [AccountController::class, 'settings'])->name('account.settings');
 
