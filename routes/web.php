@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\ForecastController;
 use App\Http\Controllers\ExpenseListingController;
 use App\Http\Controllers\IncomeListingController;
 use App\Http\Controllers\RegisterController;
