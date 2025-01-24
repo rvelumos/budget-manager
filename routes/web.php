@@ -41,8 +41,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('transactions/import', [TransactionController::class, 'import'])->name('transactions.import');
     Route::post('transactions/import', [TransactionController::class, 'storeImport'])->name('transactions.storeImport');
 
-    Route::resource('recurring-transactions', RecurringTransactionController::class);
-
     Route::get('forecast', [ForecastController::class, 'index'])->name('forecast');
     Route::get('account/settings', [AccountController::class, 'settings'])->name('account.settings');
 

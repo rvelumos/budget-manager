@@ -3,83 +3,115 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\RecurringTransaction;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-
     public function index()
     {
-        $transactions = Transaction::where('user_id', auth()->id())
-            ->with('category')
-            ->latest()
-            ->paginate(25);
+        $transactions = Transaction::where('user_id', auth()->id())->get();
+        $recurringTransactions = RecurringTransaction::where('user_id', auth()->id())->get();
 
-        return view('transactions.index', compact('transactions'));
+        return view('transactions.index', compact('transactions', 'recurringTransactions'));
     }
 
     public function create()
     {
-        $categories = auth()->user()->categories;
-        return view('transactions.create', compact('categories'));
+        return view('transactions.create');
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'amount' => 'required|numeric|min:0',
-            'type' => 'required|in:income,expense',
-            'category_id' => 'required|exists:categories,id',
-            'date' => 'required|date',
-            'description' => 'nullable|string',
-        ]);
+        if ($request->has('is_recurring')) {
+            $request->validate([
+                'amount' => 'required|numeric',
+                'frequency' => 'required|string',
+                'start_date' => 'required|date',
+                'end_date' => 'nullable|date',
+            ]);
 
-        $validated['user_id'] = auth()->id();
+            RecurringTransaction::create([
+                'user_id' => auth()->id(),
+                'amount' => $request->amount,
+                'frequency' => $request->frequency,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'description' => $request->description,
+            ]);
+        } else {
+            $request->validate([
+                'amount' => 'required|numeric',
+                'date' => 'required|date',
+            ]);
 
-        Transaction::create($validated);
+            Transaction::create([
+                'user_id' => auth()->id(),
+                'amount' => $request->amount,
+                'date' => $request->date,
+                'description' => $request->description,
+            ]);
+        }
 
-        return redirect()->route('transactions.index')->with('success', __('Transaction created successfully.'));
+        return redirect()->route('transactions.index')->with('success', 'Transaction added successfully.');
     }
 
-    public function show(Transaction $transaction)
+    public function edit($id, $type)
     {
-        $this->authorize('view', $transaction);
+        if ($type === 'recurring') {
+            $transaction = RecurringTransaction::findOrFail($id);
+        } else {
+            $transaction = Transaction::findOrFail($id);
+        }
 
-        return view('transactions.show', compact('transaction'));
+        return view('transactions.edit', compact('transaction', 'type'));
     }
 
-    public function edit(Transaction $transaction)
+    public function update(Request $request, $id, $type)
     {
-        $this->authorize('update', $transaction);
+        if ($type === 'recurring') {
+            $transaction = RecurringTransaction::findOrFail($id);
 
-        $categories = auth()->user()->categories;
+            $request->validate([
+                'amount' => 'required|numeric',
+                'frequency' => 'required|string',
+                'start_date' => 'required|date',
+                'end_date' => 'nullable|date',
+            ]);
 
-        return view('transactions.edit', compact('transaction', 'categories'));
+            $transaction->update([
+                'amount' => $request->amount,
+                'frequency' => $request->frequency,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'description' => $request->description,
+            ]);
+        } else {
+            $transaction = Transaction::findOrFail($id);
+
+            $request->validate([
+                'amount' => 'required|numeric',
+                'date' => 'required|date',
+            ]);
+
+            $transaction->update([
+                'amount' => $request->amount,
+                'date' => $request->date,
+                'description' => $request->description,
+            ]);
+        }
+
+        return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
     }
 
-    public function update(Request $request, Transaction $transaction)
+    public function destroy($id, $type)
     {
-        $this->authorize('update', $transaction);
+        if ($type === 'recurring') {
+            RecurringTransaction::findOrFail($id)->delete();
+        } else {
+            Transaction::findOrFail($id)->delete();
+        }
 
-        $validated = $request->validate([
-            'amount' => 'required|numeric|min:0',
-            'type' => 'required|in:income,expense',
-            'category_id' => 'required|exists:categories,id',
-            'date' => 'required|date',
-            'description' => 'nullable|string',
-        ]);
-
-        $transaction->update($validated);
-
-        return redirect()->route('transactions.index')->with('success', __('Transaction updated successfully.'));
-    }
-
-    public function destroy(Transaction $transaction)
-    {
-        $this->authorize('delete', $transaction);
-
-        $transaction->delete();
-
-        return redirect()->route('transactions.index')->with('success', __('Transaction deleted successfully.'));
+        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
     }
 }
