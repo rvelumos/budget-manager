@@ -49,4 +49,13 @@ return [
     'type' => 'Type',
     'income' => 'Income',
     'expense' => 'Expense',
+
+    'forecast' => 'Forecast',
+    'financial_overview' => 'Financial Overview - This Month',
+    'total_expenses' => 'Total Expenses',
+    'net_savings' => 'Net Savings',
+    'expense_breakdown' => 'Expense Breakdown by Category',
+    'no_expenses' => 'No expenses recorded for this month.',
+    'export_csv' => 'Export to CSV',
+    'edit_forecast' => 'Edit Forecast',
 ];

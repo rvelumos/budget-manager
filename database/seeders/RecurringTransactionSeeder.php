@@ -4,13 +4,13 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\IncomeListing;
+use App\Models\RecurringTransaction;
 
-class IncomeListingSeeder extends Seeder
+class RecurringTransactionSeeder extends Seeder
 {
 
     public function run(): void
     {
-        IncomeListing::factory()->count(2)->create();
+        RecurringTransaction::factory()->count(10)->create();
     }
 }

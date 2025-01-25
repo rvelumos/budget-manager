@@ -4,13 +4,13 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\IncomeListing;
+use App\Models\Forecast;
 
-class IncomeListingSeeder extends Seeder
+class ForecastSeeder extends Seeder
 {
 
     public function run(): void
     {
-        IncomeListing::factory()->count(2)->create();
+        Forecast::factory()->count(10)->create();
     }
 }

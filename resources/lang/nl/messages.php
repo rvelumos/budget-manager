@@ -53,4 +53,14 @@ return [
     'date' => 'Datum',
     'description' => 'Beschrijving',
     'amount' => 'Bedrag',
+
+    'forecast' => 'Voorspelling',
+    'financial_overview' => 'Financieel Overzicht - Deze Maand',
+    'total_expenses' => 'Totale Uitgaven',
+    'net_savings' => 'Netto Besparingen',
+    'expense_breakdown' => 'Uitgaven per Categorie',
+    'no_expenses' => 'Geen uitgaven geregistreerd deze maand.',
+    'export_csv' => 'Exporteer naar CSV',
+    'edit_forecast' => 'Voorspelling Bewerken',
+
 ];
