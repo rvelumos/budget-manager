@@ -7,7 +7,6 @@
         <h1 class="display-4 text-primary">{{ __('messages.welcome') }}</h1>
         <p class="lead">{{ __('messages.manage_finances') }}</p>
 
-        <!-- Vue Components for Diagrams -->
         <div class="row mt-5">
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm">

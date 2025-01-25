@@ -1,0 +1,92 @@
+<form action="{{ $action }}" method="POST">
+    @csrf
+    @isset($method)
+        @method($method)
+    @endisset
+
+    <div class="mb-4">
+        <label for="amount" class="block text-gray-700 font-bold">Budget Amount</label>
+        <input
+            type="number"
+            id="amount"
+            name="amount"
+            class="w-full p-2 border rounded"
+            value="{{ old('amount', $budget->amount ?? '') }}"
+            required
+        >
+        @error('amount')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div class="mb-4">
+        <label for="category_id" class="block text-gray-700 font-bold">Category</label>
+        <select
+            id="category_id"
+            name="category_id"
+            class="w-full p-2 border rounded"
+        >
+            <option value="">None</option>
+            @foreach ($categories as $category)
+                <option
+                    value="{{ $category->id }}"
+                    @selected(old('category_id', $budget->category_id ?? '') == $category->id)
+                >
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('category_id')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div class="mb-4">
+        <label for="period" class="block text-gray-700 font-bold">Period</label>
+        <select
+            id="period"
+            name="period"
+            class="w-full p-2 border rounded"
+        >
+            <option value="weekly" @selected(old('period', $budget->period ?? '') == 'weekly')>Weekly</option>
+            <option value="monthly" @selected(old('period', $budget->period ?? '') == 'monthly')>Monthly</option>
+            <option value="yearly" @selected(old('period', $budget->period ?? '') == 'yearly')>Yearly</option>
+        </select>
+        @error('period')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div class="mb-4">
+        <label for="start_date" class="block text-gray-700 font-bold">Start Date</label>
+        <input
+            type="date"
+            id="start_date"
+            name="start_date"
+            class="w-full p-2 border rounded"
+            value="{{ old('start_date', $budget->start_date ?? '') }}"
+            required
+        >
+        @error('start_date')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div class="mb-4">
+        <label for="end_date" class="block text-gray-700 font-bold">End Date</label>
+        <input
+            type="date"
+            id="end_date"
+            name="end_date"
+            class="w-full p-2 border rounded"
+            value="{{ old('end_date', $budget->end_date ?? '') }}"
+        >
+        @error('end_date')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">
+        {{ $buttonText }}
+    </button>
+</form>
