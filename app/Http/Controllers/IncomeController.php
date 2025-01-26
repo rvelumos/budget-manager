@@ -4,27 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Income;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class IncomeController extends Controller
 {
 
     use AuthorizesRequests;
 
-    public function index()
+    public function index(): View|Factory|Application
     {
         $incomes = Income::where('user_id', Auth::id())->with('category')->get();
         return view('income.index', compact('incomes'));
     }
 
-    public function create()
+    public function create(): View|Factory|Application
     {
         $categories = Category::where('type', 'income')->get();
         return view('income.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'amount' => 'required|numeric|min:0',
@@ -44,16 +51,24 @@ class IncomeController extends Controller
         return redirect()->route('incomes.index')->with('success', 'Income created successfully.');
     }
 
-    public function edit(Income $income)
+    public function edit(Income $income): View|Factory|Application
     {
-        $this->authorize('update', $income);
+        try {
+            $this->authorize('update', $income);
+        } catch (AuthorizationException $e) {
+
+        }
         $categories = Category::where('type', 'income')->get();
         return view('income.edit', compact('income', 'categories'));
     }
 
-    public function update(Request $request, Income $income)
+    public function update(Request $request, Income $income): RedirectResponse
     {
-        $this->authorize('update', $income);
+        try {
+            $this->authorize('update', $income);
+        } catch (AuthorizationException $e) {
+
+        }
 
         $request->validate([
             'amount' => 'required|numeric|min:0',
@@ -72,9 +87,13 @@ class IncomeController extends Controller
         return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
     }
 
-    public function destroy(Income $income)
+    public function destroy(Income $income): RedirectResponse
     {
-        $this->authorize('delete', $income);
+        try {
+            $this->authorize('delete', $income);
+        } catch (AuthorizationException $e) {
+
+        }
         $income->delete();
 
         return redirect()->route('incomes.index')->with('success', 'Income deleted successfully.');

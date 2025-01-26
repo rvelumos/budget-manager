@@ -4,25 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Budget;
 use App\Models\Category;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BudgetController extends Controller
 {
 
-    public function index()
+    public function index(): View|Factory|Application
     {
         $budgets = Budget::where('user_id', Auth::id())->with('category')->get();
         return view('budgets.index', compact('budgets'));
     }
 
-    public function create()
+    public function create(): View|Factory|Application
     {
         $categories = Category::all();
         return view('budgets.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'amount' => 'required|numeric|min:0',
@@ -44,20 +48,20 @@ class BudgetController extends Controller
         return redirect()->route('budgets.index')->with('success', 'Budget created successfully.');
     }
 
-    public function show(Budget $budget)
+    public function show(Budget $budget): View|Factory|Application
     {
         $this->authorize('view', $budget);
         return view('budgets.show', compact('budget'));
     }
 
-    public function edit(Budget $budget)
+    public function edit(Budget $budget): View|Factory|Application
     {
         $this->authorize('update', $budget);
         $categories = Category::all();
         return view('budgets.edit', compact('budget', 'categories'));
     }
 
-    public function update(Request $request, Budget $budget)
+    public function update(Request $request, Budget $budget): RedirectResponse
     {
         $this->authorize('update', $budget);
 
@@ -80,7 +84,7 @@ class BudgetController extends Controller
         return redirect()->route('budgets.index')->with('success', 'Budget updated successfully.');
     }
 
-    public function destroy(Budget $budget)
+    public function destroy(Budget $budget): RedirectResponse
     {
         $this->authorize('delete', $budget);
         $budget->delete();

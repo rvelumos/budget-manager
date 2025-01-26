@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Income;
 use App\Models\Expense;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 
 class ForecastController extends Controller
 {
-    public function index()
+    public function index(): View|Factory|Application
     {
         $currentMonth = now()->month;
 
@@ -32,7 +37,7 @@ class ForecastController extends Controller
         return view('forecast.index', compact('totalIncome', 'totalExpense', 'netSavings', 'expensesByCategory'));
     }
 
-    public function export()
+    public function export(): Application|Response|ResponseFactory
     {
         $currentMonth = now()->month;
 

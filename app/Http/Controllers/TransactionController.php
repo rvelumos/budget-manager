@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\RecurringTransaction;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class TransactionController extends Controller
 {
-    public function index()
+    public function index(): View|Factory|Application
     {
         $transactions = Transaction::where('user_id', auth()->id())->get();
         $recurringTransactions = RecurringTransaction::where('user_id', auth()->id())->get();
@@ -16,12 +21,12 @@ class TransactionController extends Controller
         return view('transactions.index', compact('transactions', 'recurringTransactions'));
     }
 
-    public function create()
+    public function create(): View|Factory|Application
     {
         return view('transactions.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         if ($request->has('is_recurring')) {
             $request->validate([
@@ -56,7 +61,7 @@ class TransactionController extends Controller
         return redirect()->route('transactions.index')->with('success', 'Transaction added successfully.');
     }
 
-    public function edit($id, $type)
+    public function edit($id, $type): View|Factory|Application
     {
         if ($type === 'recurring') {
             $transaction = RecurringTransaction::findOrFail($id);
@@ -67,7 +72,7 @@ class TransactionController extends Controller
         return view('transactions.edit', compact('transaction', 'type'));
     }
 
-    public function update(Request $request, $id, $type)
+    public function update(Request $request, $id, $type): RedirectResponse
     {
         if ($type === 'recurring') {
             $transaction = RecurringTransaction::findOrFail($id);
@@ -104,7 +109,7 @@ class TransactionController extends Controller
         return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
     }
 
-    public function destroy($id, $type)
+    public function destroy($id, $type): RedirectResponse
     {
         if ($type === 'recurring') {
             RecurringTransaction::findOrFail($id)->delete();

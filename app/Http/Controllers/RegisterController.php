@@ -4,20 +4,30 @@ namespace App\Http\Controllers\AuthController;
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {
-    public function showRegistrationForm()
-        {
+    public function showRegistrationForm(): View|Factory|Application
+    {
             return view('auth.register');
         }
 
-        public function register(Request $request)
+        public function register(Request $request): RedirectResponse
         {
-            $this->validator($request->all())->validate();
+            try {
+                $this->validator($request->all())->validate();
+            } catch (ValidationException $e) {
+
+            }
 
             $user = $this->create($request->all());
 
@@ -26,7 +36,7 @@ class RegisterController extends Controller
             return redirect()->route('/dashboard');
         }
 
-        protected function validator(array $data)
+        protected function validator(array $data): \Illuminate\Validation\Validator
         {
             return Validator::make($data, [
                     'name' => ['required', 'string', 'max:255'],
