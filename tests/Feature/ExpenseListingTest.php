@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use App\Models\ExpenseListing;
@@ -54,7 +53,7 @@ class ExpenseListingTest extends TestCase
 
         ExpenseListing::factory()->count(10)->create(['user_id' => $this->user1->id]);
 
-        $response = $this->actingAs($this->user1)->post(route('expense-lists.store'), [
+        $response = $this->actingAs($this->user1)->post(route('expense-listings.store'), [
             'name' => 'New Expense List'
         ]);
 

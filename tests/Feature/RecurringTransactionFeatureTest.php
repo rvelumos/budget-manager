@@ -21,7 +21,7 @@ class RecurringTransactionFeatureTest extends TestCase
     }
 
     #[Test]
-    public function expect_an_user_can_create_a_recurring_transaction()
+    public function expect_an_user_can_create_a_recurring_transaction(): void
     {
         $this->actingAs($this->user);
 
@@ -41,7 +41,7 @@ class RecurringTransactionFeatureTest extends TestCase
     }
 
     #[Test]
-    public function expect_an_user_can_update_a_recurring_transaction()
+    public function expect_an_user_can_update_a_recurring_transaction(): void
     {
         $transaction = RecurringTransaction::factory()->create(['user_id' => $this->user->id]);
 
@@ -62,7 +62,7 @@ class RecurringTransactionFeatureTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_delete_a_recurring_transaction()
+    public function expect_user_can_delete_a_recurring_transaction(): void
     {
         $transaction = RecurringTransaction::factory()->create(['user_id' => $this->user->id]);
 
@@ -77,9 +77,9 @@ class RecurringTransactionFeatureTest extends TestCase
     }
 
     #[Test]
-    public function expect_unauthorized_user_cannot_access_recurring_transactions()
+    public function expect_unauthorized_user_cannot_access_recurring_transactions(): void
     {
-        $transaction = RecurringTransaction::factory()->create();
+        RecurringTransaction::factory()->create();
 
         $response = $this->get(route('recurring-transactions.index'));
 

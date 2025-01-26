@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\WithFaker;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -27,7 +26,7 @@ class CategoryTest extends TestCase
     {
 
         $this->be($this->user)
-            ->get("/admin/category")
+            ->get("/admin/categories")
             ->assertStatus(403);
 
     }
@@ -38,7 +37,7 @@ class CategoryTest extends TestCase
 
         Category::factory()->create(['name' => 'Groceries']);
 
-        $response = $this->post(route('category.store'), [
+        $response = $this->post(route('categories.store'), [
             'name' => 'Groceries',
             'description' => 'This should fail',
         ]);

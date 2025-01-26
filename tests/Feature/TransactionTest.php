@@ -21,7 +21,7 @@ class TransactionTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_view_his_transactions()
+    public function expect_user_can_view_his_transactions(): void
     {
         $this->actingAs($this->user);
 
@@ -33,7 +33,7 @@ class TransactionTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_create_a_transaction()
+    public function expect_user_can_create_a_transaction(): void
     {
         $this->actingAs($this->user);
 
@@ -54,7 +54,7 @@ class TransactionTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_cannot_create_transaction_with_invalid_data()
+    public function expect_user_cannot_create_transaction_with_invalid_data(): void
     {
         $this->actingAs($this->user);
 
@@ -71,7 +71,7 @@ class TransactionTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_update_their_transaction()
+    public function expect_user_can_update_their_transaction(): void
     {
         $this->actingAs($this->user);
 
@@ -89,7 +89,7 @@ class TransactionTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_cannot_update_others_transactions()
+    public function expect_user_cannot_update_others_transactions(): void
     {
         $this->actingAs($this->user);
 
@@ -106,7 +106,7 @@ class TransactionTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_delete_their_transaction()
+    public function expect_user_can_delete_their_transaction(): void
     {
         $this->actingAs($this->user);
 
@@ -119,7 +119,7 @@ class TransactionTest extends TestCase
     }
 
     #[Test]
-    public function user_cannot_delete_others_transactions()
+    public function user_cannot_delete_others_transactions(): void
     {
         $this->actingAs($this->user);
 

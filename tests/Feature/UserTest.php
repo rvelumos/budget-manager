@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 
@@ -27,11 +26,11 @@ class UserTest extends TestCase
     #[Test]
     public function expect_authenticated_user_can_access_account_page(): void
     {
-        $this->get('/account')
+        $this->get('/account/settings')
             ->assertRedirect('login');
 
         $this->be($this->user)
-            ->get("/account")
+            ->get("/account/settings")
             ->assertStatus(200);
 
     }
@@ -45,7 +44,7 @@ class UserTest extends TestCase
             ->assertStatus(403);
 
         $this->be($this->admin)
-            ->get("/account")
+            ->get("/admin")
             ->assertStatus(200);
     }
 }

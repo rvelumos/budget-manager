@@ -8,18 +8,19 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class CategoryController extends Controller
 {
     public function index(): View|Factory|Application
     {
         $categories = Category::all();
-        return view('category.index', compact('categories'));
+        return view('categories.index', compact('categories'));
     }
 
     public function create(): View|Factory|Application
     {
-        return view('category.create');
+        return view('categories.create');
     }
 
     public function store(Request $request): RedirectResponse
@@ -31,18 +32,18 @@ class CategoryController extends Controller
 
         Category::create($request->all());
 
-        return redirect()->route('category.index')
+        return redirect()->route('categories.index')
                          ->with('success', 'Category created successfully.');
     }
 
     public function show(Category $category): View|Factory|Application
     {
-        return view('category.show', compact('category'));
+        return view('categories.show', compact('category'));
     }
 
     public function edit(Category $category): View|Factory|Application
     {
-        return view('category.edit', compact('category'));
+        return view('categories.edit', compact('category'));
     }
 
     public function update(Request $request, Category $category): RedirectResponse
@@ -54,7 +55,7 @@ class CategoryController extends Controller
 
         $category->update($request->all());
 
-        return redirect()->route('category.index')
+        return redirect()->route('categories.index')
                          ->with('success', 'Category updated successfully.');
     }
 
@@ -62,7 +63,7 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return redirect()->route('category.index')
+        return redirect()->route('categories.index')
                          ->with('success', 'Category deleted successfully.');
     }
 }

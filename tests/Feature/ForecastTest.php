@@ -2,9 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Forecast;
+use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ForecastTest extends TestCase
@@ -22,7 +23,7 @@ class ForecastTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_visit_forecast_index_page()
+    public function expect_user_can_visit_forecast_index_page(): void
     {
         $forecasts = Forecast::factory()->count(3)->create(['user_id' => $this->user->id]);
 
@@ -38,7 +39,7 @@ class ForecastTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_visit_create_page()
+    public function expect_user_can_visit_create_page(): void
     {
         $response = $this->get(route('forecasts.create'));
 
@@ -48,7 +49,7 @@ class ForecastTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_store_a_new_forecast()
+    public function expect_user_can_store_a_new_forecast(): void
     {
         $data = [
             'name' => 'My Forecast',
@@ -66,7 +67,7 @@ class ForecastTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_visit_the_forecast_edit_page()
+    public function expect_user_can_visit_the_forecast_edit_page(): void
     {
         $forecast = Forecast::factory()->create(['user_id' => $this->user->id]);
 
@@ -79,7 +80,7 @@ class ForecastTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_update_an_existing_forecast()
+    public function expect_user_can_update_an_existing_forecast(): void
     {
         $forecast = Forecast::factory()->create(['user_id' => $this->user->id]);
 
@@ -99,7 +100,7 @@ class ForecastTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_delete_his_own_forecast()
+    public function expect_user_can_delete_his_own_forecast(): void
     {
         $forecast = Forecast::factory()->create(['user_id' => $this->user->id]);
 
@@ -112,7 +113,7 @@ class ForecastTest extends TestCase
     }
 
     #[Test]
-    public function expect_unauthorized_users_cannot_manage_forecasts()
+    public function expect_unauthorized_users_cannot_manage_forecasts(): void
     {
         $forecast = Forecast::factory()->create();
 

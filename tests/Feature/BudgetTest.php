@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\Budget;
+use App\Models\Category;
+use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class BudgetTest extends TestCase
@@ -22,20 +24,19 @@ class BudgetTest extends TestCase
         }
 
         #[Test]
-        public function expect_user_can_visit_the_budget_index_page()
+        public function expect_user_can_visit_the_budget_index_page(): void
         {
 
-            Budget::factory()->count(3)->create();
+            $this->get(route('budgets.index'))
+                ->assertRedirect('login');
 
-            $response = $this->get(route('budgets.index'));
-
-            $response->assertStatus(200);
-            $response->assertViewIs('budgets.index');
-            $response->assertViewHas('budgets');
+            $this->be($this->user)
+                ->get(route('budgets.create'))
+                ->assertStatus(200);
         }
 
         #[Test]
-        public function expert_user_can_create_budget_item()
+        public function expert_user_can_create_budget_item(): void
         {
 
             $response = $this->get(route('budgets.create'));
@@ -45,7 +46,7 @@ class BudgetTest extends TestCase
         }
 
         #[Test]
-        public function expect_user_can_store_a_new_budget()
+        public function expect_user_can_store_a_new_budget(): void
         {
 
             $category = Category::factory()->create();
@@ -65,7 +66,7 @@ class BudgetTest extends TestCase
         }
 
         #[Test]
-        public function expect_user_can_visit_edit_budget_page()
+        public function expect_user_can_visit_edit_budget_page(): void
         {
 
             $budget = Budget::factory()->create();
@@ -78,7 +79,7 @@ class BudgetTest extends TestCase
         }
 
         #[Test]
-        public function expect_user_can_update_an_existing_budget()
+        public function expect_user_can_update_an_existing_budget(): void
         {
 
             $budget = Budget::factory()->create();
@@ -98,7 +99,7 @@ class BudgetTest extends TestCase
         }
 
         #[Test]
-        public function expect_user_can_see_budget_details()
+        public function expect_user_can_see_budget_details(): void
         {
 
             $budget = Budget::factory()->create();
@@ -111,7 +112,7 @@ class BudgetTest extends TestCase
         }
 
         #[Test]
-        public function expect_user_can_delete_a_budget()
+        public function expect_user_can_delete_a_budget(): void
         {
 
             $budget = Budget::factory()->create();

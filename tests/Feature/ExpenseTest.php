@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Test;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use Tests\TestCase;
@@ -32,6 +31,18 @@ class ExpenseTest extends TestCase
             'expense_list_id' => $this->expenseListing->id,
             'user_id' => $this->user1->id,
         ]);
+    }
+
+    #[Test]
+    public function expect_user_can_visit_the_expenses_index_page(): void
+    {
+
+        $this->get(route('expenses.index'))
+            ->assertRedirect('login');
+
+        $this->be($this->user1)
+            ->get(route('expenses.index'))
+            ->assertStatus(200);
     }
 
     #[Test]

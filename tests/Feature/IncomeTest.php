@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\IncomeListing;
