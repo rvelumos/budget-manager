@@ -55,11 +55,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('account/settings', [UserController::class, 'settings'])->name('account.settings');
 
     Route::middleware('admin')->group(function () {
-        Route::get('admin/', [AdminController::class, 'adminOverview'])->name('admin.index');
-        //Route::get('admin/users', [AdminController::class, 'userOverview'])->name('admin.users');
-        //Route::get('admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
-
-        Route::resource('/admin/categories', CategoryController::class);
+        Route::resource('admin', AdminController::class);
+        Route::resource('admin/categories', CategoryController::class);
     });
 });
 

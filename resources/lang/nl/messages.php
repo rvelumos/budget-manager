@@ -47,12 +47,6 @@ return [
     'cancel' => 'Annuleren',
     'back_to_list' => 'Terug naar Lijst',
     'type' => 'Type',
-    'income' => 'Inkomen',
-    'expense' => 'Uitgave',
-    'category' => 'Categorie',
-    'date' => 'Datum',
-    'description' => 'Beschrijving',
-    'amount' => 'Bedrag',
 
     'forecast' => 'Voorspelling',
     'financial_overview' => 'Financieel Overzicht - Deze Maand',
@@ -62,5 +56,16 @@ return [
     'no_expenses' => 'Geen uitgaven geregistreerd deze maand.',
     'export_csv' => 'Exporteer naar CSV',
     'edit_forecast' => 'Voorspelling Bewerken',
+
+    'users' => 'Gebruikers',
+    'add_user' => 'Gebruiker Toevoegen',
+    'edit_user' => 'Gebruiker Bewerken',
+    'user_details' => 'Gebruikersdetails',
+    'id' => 'ID',
+    'name' => 'Naam',
+    'email' => 'E-mail',
+    'password' => 'Wachtwoord',
+    'confirm_password' => 'Bevestig Wachtwoord',
+    'back_to_users' => 'Terug naar Gebruikers',
 
 ];

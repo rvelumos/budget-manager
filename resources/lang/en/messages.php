@@ -47,7 +47,6 @@ return [
     'cancel' => 'Cancel',
     'back_to_list' => 'Back to List',
     'type' => 'Type',
-    'income' => 'Income',
     'expense' => 'Expense',
 
     'forecast' => 'Forecast',
@@ -58,4 +57,15 @@ return [
     'no_expenses' => 'No expenses recorded for this month.',
     'export_csv' => 'Export to CSV',
     'edit_forecast' => 'Edit Forecast',
+
+    'users' => 'Users',
+    'add_user' => 'Add User',
+    'edit_user' => 'Edit User',
+    'user_details' => 'User Details',
+    'id' => 'ID',
+    'name' => 'Name',
+    'email' => 'Email',
+    'password' => 'Password',
+    'confirm_password' => 'Confirm Password',
+    'back_to_users' => 'Back to Users',
 ];
