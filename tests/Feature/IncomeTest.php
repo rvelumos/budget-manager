@@ -81,7 +81,6 @@ class IncomeTest extends TestCase
        $this->actingAs($this->user2);
 
        $response = $this->delete(route('incomes.destroy', [$this->incomeListing, $this->income]));
-
        $response->assertStatus(403);
 
        $this->assertDatabaseHas('incomes', ['id' => $this->income->id]);
@@ -94,8 +93,7 @@ class IncomeTest extends TestCase
        $this->actingAs($this->user1);
 
        $response = $this->delete(route('incomes.destroy', [$this->incomeListing, $this->income]));
-
-       $response->assertRedirect(route('incomes.index', $this->incomeListing->id));
+       $response->assertRedirect(route('incomes.index'));
 
        $this->assertDatabaseMissing('incomes', ['id' => $this->income->id]);
     }

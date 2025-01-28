@@ -11,11 +11,10 @@ return new class extends Migration
         Schema::create('forecasts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->date('forecast_period_start');
-            $table->date('forecast_period_end');
+            $table->date('month');
             $table->decimal('expected_income', 10, 2)->default(0);
             $table->decimal('expected_expenses', 10, 2)->default(0);
-            $table->decimal('net_forecast', 10, 2)->virtualAs('expected_income - expected_expenses');
+            $table->decimal('net_forecast', 10, 2)->default(0);
             $table->json('categories')->nullable();
             $table->decimal('accuracy_rate', 5, 2)->nullable();
             $table->timestamps();

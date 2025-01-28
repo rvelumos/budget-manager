@@ -34,7 +34,14 @@ class ForecastController extends Controller
             ->groupBy('category_id')
             ->get();
 
-        return view('forecast.index', compact('totalIncome', 'totalExpense', 'netSavings', 'expensesByCategory'));
+        $forecasts = (object)[
+            'totalIncome' => $totalIncome,
+            'totalExpense' => $totalExpense,
+            'netSavings' => $netSavings,
+            'expensesByCategory' => $expensesByCategory,
+        ];
+
+        return view('forecasts.index', compact('forecasts'));
     }
 
     public function export(): Application|Response|ResponseFactory
@@ -53,7 +60,7 @@ class ForecastController extends Controller
 
         return response($csvData)
             ->header('Content-Type', 'text/csv')
-            ->header('Content-Disposition', 'attachment; filename="forecast.csv"');
+            ->header('Content-Disposition', 'attachment; filename="forecasts.csv"');
     }
 
 }

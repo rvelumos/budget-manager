@@ -53,7 +53,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::resource('budgets', BudgetController::class);
 
-    Route::get('forecast', [ForecastController::class, 'index'])->name('forecast');
+    Route::resource('forecasts', ForecastController::class);
     Route::get('account/settings', [UserController::class, 'settings'])->name('account.settings');
 
     Route::prefix('admin')->middleware(['auth', 'can:admin'])->group(function () {

@@ -15,7 +15,7 @@ class RecurringTransactionTest extends TestCase
     #[Test]
     public function expect_we_can_create_a_recurring_transaction()
     {
-        $recurringTransaction = RecurringTransaction::factory()->create([
+        RecurringTransaction::factory()->create([
             'user_id' => 1,
             'name' => 'Monthly Rent',
             'amount' => 1200.00,

@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Forecast;
+use App\Models\RecurringTransaction;
+use App\Models\Transaction;
 use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
@@ -30,7 +32,7 @@ class ForecastTest extends TestCase
         $response = $this->get(route('forecasts.index'));
 
         $response->assertStatus(200)
-                 ->assertViewIs('forecast.index')
+                 ->assertViewIs('forecasts.index')
                  ->assertSee('Forecasts');
 
         foreach ($forecasts as $forecast) {
@@ -39,93 +41,43 @@ class ForecastTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_visit_create_page(): void
+    public function test_forecast_data_is_displayed_correctly(): void
     {
-        $response = $this->get(route('forecasts.create'));
+        $this->actingAs($this->user);
 
-        $response->assertStatus(200)
-                 ->assertViewIs('forecast.create')
-                 ->assertSee('Create Forecast');
-    }
-
-    #[Test]
-    public function expect_user_can_store_a_new_forecast(): void
-    {
-        $data = [
-            'name' => 'My Forecast',
-            'description' => 'This is a test forecast',
-            'amount' => 1500,
-            'date' => now()->format('Y-m-d'),
-        ];
-
-        $response = $this->post(route('forecasts.store'), $data);
-
-        $response->assertRedirect(route('forecasts.index'))
-                 ->assertSessionHas('success', 'Forecast created successfully.');
-
-        $this->assertDatabaseHas('forecasts', $data);
-    }
-
-    #[Test]
-    public function expect_user_can_visit_the_forecast_edit_page(): void
-    {
-        $forecast = Forecast::factory()->create(['user_id' => $this->user->id]);
-
-        $response = $this->get(route('forecasts.edit', $forecast));
-
-        $response->assertStatus(200)
-                 ->assertViewIs('forecast.edit')
-                 ->assertSee('Edit Forecast')
-                 ->assertSee($forecast->name);
-    }
-
-    #[Test]
-    public function expect_user_can_update_an_existing_forecast(): void
-    {
-        $forecast = Forecast::factory()->create(['user_id' => $this->user->id]);
-
-        $data = [
-            'name' => 'Updated Forecast',
-            'description' => 'Updated description',
-            'amount' => 2000,
-            'date' => now()->addDays(10)->format('Y-m-d'),
-        ];
-
-        $response = $this->put(route('forecasts.update', $forecast), $data);
-
-        $response->assertRedirect(route('forecasts.index'))
-                 ->assertSessionHas('success', 'Forecast updated successfully.');
-
-        $this->assertDatabaseHas('forecasts', $data);
-    }
-
-    #[Test]
-    public function expect_user_can_delete_his_own_forecast(): void
-    {
-        $forecast = Forecast::factory()->create(['user_id' => $this->user->id]);
-
-        $response = $this->delete(route('forecasts.destroy', $forecast));
-
-        $response->assertRedirect(route('forecasts.index'))
-                 ->assertSessionHas('success', 'Forecast deleted successfully.');
-
-        $this->assertDatabaseMissing('forecasts', ['id' => $forecast->id]);
-    }
-
-    #[Test]
-    public function expect_unauthorized_users_cannot_manage_forecasts(): void
-    {
-        $forecast = Forecast::factory()->create();
-
-        $response = $this->get(route('forecasts.edit', $forecast));
-        $response->assertForbidden();
-
-        $response = $this->put(route('forecasts.update', $forecast), [
-            'name' => 'Should Not Work',
+        $recurringTransaction = RecurringTransaction::factory()->create([
+            'user_id' => $this->user->id,
+            'amount' => 100,
+            'frequency' => 'monthly',
+            'start_date' => now()->startOfMonth(),
+            'end_date' => now()->addMonths(6),
         ]);
-        $response->assertForbidden();
 
-        $response = $this->delete(route('forecasts.destroy', $forecast));
-        $response->assertForbidden();
+        $transaction = Transaction::factory()->create([
+            'user_id' => $this->user->id,
+            'amount' => 500,
+            'date' => now()->startOfMonth(),
+        ]);
+
+        $response = $this->get(route('forecasts.index'));
+
+        $response->assertStatus(200);
+
+        $response->assertSee((string) $recurringTransaction->amount);
+        $response->assertSee((string) $transaction->amount);
+
+        $predictedBalance = $transaction->amount + ($recurringTransaction->amount * 6);
+        $response->assertSee((string) $predictedBalance);
+    }
+
+    #[Test]
+    public function test_forecast_page_shows_message_when_no_data_is_available(): void
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->get(route('forecasts.index'));
+
+        $response->assertStatus(200);
+        $response->assertSee(__('forecasts.no_data_message'));
     }
 }

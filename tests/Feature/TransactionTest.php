@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Category;
 use App\Models\RecurringTransaction;
 use App\Models\Transaction;
 use App\Models\User;
