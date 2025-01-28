@@ -2,74 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
+use App\Models\Transaction;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 
 class AdminController extends Controller
 {
 
-    public function index(): View
+    public function manageUsers(): View|Factory|Application
     {
-        $users = User::paginate(10);
-        return view('admin.index', compact('users'));
+        $users = User::paginate(10); // Paginate for performance
+        return view('admin.users.index', compact('users'));
     }
 
-    public function create(): View
+    public function manageCategories(): View|Factory|Application
     {
-        return view('admin.create');
+        $categories = Category::paginate(10);
+        return view('admin.categories.index', compact('categories'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function editCategory(Category $category): View|Factory|Application
     {
-        $validated = $request->validate([
+        return view('admin.categories.edit', compact('category'));
+    }
+
+    public function updateCategory(Request $request, Category $category): RedirectResponse
+    {
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
+            'type' => 'required|in:expense,income',
         ]);
 
-        User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
-        ]);
+        $category->update($request->all());
 
-        return redirect()->route('admin.index')->with('success', 'User created successfully.');
+        return redirect()->route('admin.categories.index')
+            ->with('success', __('categories.updated'));
     }
 
-    public function show(User $user): View
+    public function deleteCategory(Category $category): RedirectResponse
     {
-        return view('admin.show', compact('user'));
+        $category->delete();
+
+        return redirect()->route('admin.categories.index')
+            ->with('success', __('categories.deleted'));
     }
 
-    public function edit(User $user): View
+    public function runReports(): View|Factory|Application
     {
-        return view('admin.edit', compact('user'));
-    }
+        $totalIncome = Transaction::where('type', 'income')->sum('amount');
+        $totalExpense = Transaction::where('type', 'expense')->sum('amount');
 
-    public function update(Request $request, User $user): RedirectResponse
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:8|confirmed',
-        ]);
-
-        $user->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'] ? bcrypt($validated['password']) : $user->password,
-        ]);
-
-        return redirect()->route('admin.index')->with('success', 'User updated successfully.');
-    }
-
-    public function destroy(User $user): RedirectResponse
-    {
-        $user->delete();
-
-        return redirect()->route('admin.index')->with('success', 'User deleted successfully.');
+        return view('admin.reports.index', compact('totalIncome', 'totalExpense'));
     }
 }
