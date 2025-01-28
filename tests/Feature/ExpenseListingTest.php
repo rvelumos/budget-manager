@@ -40,9 +40,14 @@ class ExpenseListingTest extends TestCase
     public function expect_an_admin_cannot_see_normal_user_expense_listing(): void
     {
 
-        $expense = Expense::factory()->create(['user_id' => $this->user1->id]);
+        $expenseListing = ExpenseListing::factory()->create(['user_id' => $this->user1->id]);
 
-        $response = $this->actingAs($this->adminUser)->get(route('expense-listings.show', $expense));
+        Expense::factory()->create([
+            'user_id' => $this->user1->id,
+            'expense_list_id' => $expenseListing->id,
+        ]);
+
+        $response = $this->actingAs($this->adminUser)->get(route('expense-listings.show', $expenseListing->id));
 
         $response->assertStatus(403);
     }
@@ -51,14 +56,20 @@ class ExpenseListingTest extends TestCase
     public function expect_a_user_cannot_create_more_than_10_expense_listings(): void
     {
 
-        ExpenseListing::factory()->count(10)->create(['user_id' => $this->user1->id]);
+        $this->actingAs($this->user1);
 
-        $response = $this->actingAs($this->user1)->post(route('expense-listings.store'), [
-            'name' => 'New Expense List'
+        ExpenseListing::factory()->count(9)->create(['user_id' => $this->user1->id]);
+
+        $response = $this->post(route('expense-listings.store'), [
+            'name' => 'Extra Expense Listing',
         ]);
 
-        $response->assertSessionHasErrors('name');
+        $response->assertSessionHasErrors(['limit' => __('You cannot create more than 10 expense listings.')]);
 
-        $this->assertDatabaseCount('expenses', 10);
+        $this->assertCount(
+            10,
+            ExpenseListing::where('user_id', $this->user1->id)->get(),
+            'The user should not have more than 10 expense listings.'
+        );
     }
 }

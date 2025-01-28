@@ -13,7 +13,6 @@
         <tbody>
             @foreach ($items as $item)
                 <tr>
-                    <td>{{ $item->category->name }}</td>
                     <td>{{ $item->amount }}</td>
                     <td>{{ $item->date }}</td>
                     <td>
