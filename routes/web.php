@@ -13,7 +13,6 @@ use App\Http\Controllers\ForecastController;
 use App\Http\Controllers\ExpenseListingController;
 use App\Http\Controllers\IncomeListingController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\AuthController;
 
 Route::middleware(['setLocale'])->group(function () {
@@ -46,6 +45,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('incomes', IncomeController::class);
 
     Route::resource('transactions', TransactionController::class);
+    Route::get('transactions/{type}/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+    Route::delete('transactions/{type}/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+
     Route::get('transactions/import', [TransactionController::class, 'import'])->name('transactions.import');
     Route::post('transactions/import', [TransactionController::class, 'storeImport'])->name('transactions.storeImport');
 
@@ -54,9 +56,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('forecast', [ForecastController::class, 'index'])->name('forecast');
     Route::get('account/settings', [UserController::class, 'settings'])->name('account.settings');
 
-    Route::middleware('admin')->group(function () {
-        Route::resource('admin', AdminController::class);
-        Route::resource('admin/categories', CategoryController::class);
+    Route::prefix('admin')->middleware(['auth', 'can:admin'])->group(function () {
+        Route::get('users', [AdminController::class, 'manageUsers'])->name('admin.users.index');
+        Route::get('categories', [AdminController::class, 'manageCategories'])->name('admin.categories.index');
+        Route::get('categories/{category}/edit', [AdminController::class, 'editCategory'])->name('admin.categories.edit');
+        Route::put('categories/{category}', [AdminController::class, 'updateCategory'])->name('admin.categories.update');
+        Route::delete('categories/{category}', [AdminController::class, 'deleteCategory'])->name('admin.categories.delete');
+        Route::get('reports', [AdminController::class, 'runReports'])->name('admin.reports.index');
     });
 });
 

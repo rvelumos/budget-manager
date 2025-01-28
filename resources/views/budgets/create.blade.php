@@ -4,10 +4,10 @@
 <div class="container mx-auto">
     <h1 class="text-2xl font-bold mb-6">Create Budget</h1>
 
-    @include('budgets.partials._form', [
+    @include('budgets.form', [
         'action' => route('budgets.store'),
         'method' => null,
-        'budget' => null,
+        'budgets' => null,
         'categories' => $categories,
         'buttonText' => 'Create Budget',
     ])

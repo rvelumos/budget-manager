@@ -7,7 +7,7 @@
     @include('budgets.form', [
         'action' => route('budgets.update', $budget),
         'method' => 'PUT',
-        'budget' => $budget,
+        'budgets' => $budget,
         'categories' => $categories,
         'buttonText' => 'Update Budget',
     ])

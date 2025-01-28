@@ -14,8 +14,10 @@ class RecurringTransactionFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'title' => $this->faker->title,
             'amount' => $this->faker->randomFloat(2, 10, 1000),
             'frequency' => $this->faker->randomElement(['daily', 'weekly', 'monthly', 'yearly']),
+            'next_occurrence' => $this->faker->date(),
             'start_date' => $this->faker->date(),
             'end_date' => $this->faker->optional()->date(),
         ];

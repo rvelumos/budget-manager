@@ -7,7 +7,7 @@ services:
             context: .
             dockerfile: Dockerfile
         image: budget-manager-app
-        container_name: budget-manager-app
+        container_name: budgets-manager-app
         restart: unless-stopped
         working_dir: /var/www/html
         volumes:

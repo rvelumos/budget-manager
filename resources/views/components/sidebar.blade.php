@@ -11,7 +11,7 @@
             <a class="nav-link" href="{{ route('income.index') }}">{{ __('sidebar.income') }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('budget.index') }}">{{ __('sidebar.budget') }}</a>
+            <a class="nav-link" href="{{ route('budgets.index') }}">{{ __('sidebar.budgets') }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('forecast.index') }}">{{ __('sidebar.forecast') }}</a>

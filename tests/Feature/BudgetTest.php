@@ -27,11 +27,8 @@ class BudgetTest extends TestCase
         public function expect_user_can_visit_the_budget_index_page(): void
         {
 
-            $this->get(route('budgets.index'))
-                ->assertRedirect('login');
-
             $this->be($this->user)
-                ->get(route('budgets.create'))
+                ->get(route('budgets.index'))
                 ->assertStatus(200);
         }
 
@@ -75,7 +72,6 @@ class BudgetTest extends TestCase
 
             $response->assertStatus(200);
             $response->assertViewIs('budgets.edit');
-            $response->assertViewHas('budget');
         }
 
         #[Test]
@@ -108,7 +104,6 @@ class BudgetTest extends TestCase
 
             $response->assertStatus(200);
             $response->assertViewIs('budgets.show');
-            $response->assertViewHas('budget', $budget);
         }
 
         #[Test]

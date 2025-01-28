@@ -15,10 +15,23 @@ class TransactionController extends Controller
 {
     public function index(): View|Factory|Application
     {
-        $transactions = Transaction::where('user_id', auth()->id())->get();
-        $recurringTransactions = RecurringTransaction::where('user_id', auth()->id())->get();
+        $transactions = Transaction::where('user_id', auth()->id())
+            ->get()
+            ->map(function ($transaction) {
+                $transaction->type = 'regular';
+                return $transaction;
+            });
 
-        return view('transactions.index', compact('transactions', 'recurringTransactions'));
+        $recurringTransactions = RecurringTransaction::where('user_id', auth()->id())
+            ->get()
+            ->map(function ($recurring) {
+                $recurring->type = 'recurring';
+                return $recurring;
+            });
+
+        $allTransactions = $transactions->merge($recurringTransactions);
+
+        return view('transactions.index', compact('allTransactions'));
     }
 
     public function create(): View|Factory|Application
@@ -109,13 +122,21 @@ class TransactionController extends Controller
         return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
     }
 
-    public function destroy($id, $type): RedirectResponse
+    public function destroy($id, Request $request): RedirectResponse
     {
+        $type = $request->input('type', 'regular');
+
         if ($type === 'recurring') {
-            RecurringTransaction::findOrFail($id)->delete();
+            $transaction = RecurringTransaction::findOrFail($id);
         } else {
-            Transaction::findOrFail($id)->delete();
+            $transaction = Transaction::findOrFail($id);
         }
+
+        if ($transaction->user_id !== auth()->id()) {
+            abort(403, 'You are not authorized to delete this transaction.');
+        }
+
+        $transaction->delete();
 
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
     }
