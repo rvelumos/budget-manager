@@ -21,38 +21,6 @@ class AdminController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function manageCategories(): View|Factory|Application
-    {
-        $categories = Category::paginate(10);
-        return view('admin.categories.index', compact('categories'));
-    }
-
-    public function editCategory(Category $category): View|Factory|Application
-    {
-        return view('admin.categories.edit', compact('category'));
-    }
-
-    public function updateCategory(Request $request, Category $category): RedirectResponse
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|in:expense,income',
-        ]);
-
-        $category->update($request->all());
-
-        return redirect()->route('admin.categories.index')
-            ->with('success', __('categories.updated'));
-    }
-
-    public function deleteCategory(Category $category): RedirectResponse
-    {
-        $category->delete();
-
-        return redirect()->route('admin.categories.index')
-            ->with('success', __('categories.deleted'));
-    }
-
     public function runReports(): View|Factory|Application
     {
         $totalIncome = Transaction::where('type', 'income')->sum('amount');
