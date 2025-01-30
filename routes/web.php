@@ -38,11 +38,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     //Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    Route::resource('expense-listings', ExpenseListingController::class);
-    Route::resource('incomes-listings', IncomeListingController::class);
+    Route::prefix('expense-listings')->group(function () {
+        Route::resource('expenses', ExpenseController::class);
+        Route::get('{expenseList}/expenses', [ExpenseController::class, 'index'])->name('expense-listings.expenses.index');
+    });
 
-    Route::resource('expenses', ExpenseController::class);
-    Route::resource('incomes', IncomeController::class);
+    Route::prefix('income-listings')->group(function () {
+        Route::resource('incomes', incomeController::class);
+        Route::get('{incomeList}/incomes', [incomeController::class, 'index'])->name('income-listings.incomes.index');
+    });
 
     Route::resource('transactions', TransactionController::class);
     Route::get('transactions/{type}/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');

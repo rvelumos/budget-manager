@@ -40,11 +40,11 @@ class UserTest extends TestCase
     {
 
         $this->be($this->user)
-            ->get("/admin")
+            ->get("/admin/users")
             ->assertStatus(403);
 
         $this->be($this->admin)
-            ->get("/admin")
+            ->get("/admin/users")
             ->assertStatus(200);
     }
 }

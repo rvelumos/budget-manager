@@ -72,7 +72,7 @@ class ExpenseController extends Controller
     public function destroy(ExpenseListing $expenseList, Expense $expense): RedirectResponse
     {
         $expense->delete();
-        return redirect()->route('expense-lists.expenses.index', $expenseList)->with('success', 'Expense deleted successfully.');
+        return redirect()->route('expense-listings.expenses.index', $expenseList)->with('success', 'Expense deleted successfully.');
     }
 
     public function currentMonth(): JsonResponse

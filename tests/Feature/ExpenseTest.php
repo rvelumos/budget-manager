@@ -123,7 +123,7 @@ class ExpenseTest extends TestCase
 
        $response = $this->delete(route('expenses.destroy', [$this->expenseListing, $this->expense]));
 
-       $response->assertRedirect(route('expenses.index', $this->expenseListing->id));
+       $response->assertRedirect(route('expense-listings.expenses.index', $this->expenseListing));
 
        $this->assertDatabaseMissing('expenses', ['id' => $this->expense->id]);
     }
