@@ -27,11 +27,11 @@ class ExpenseListingTest extends TestCase
     #[Test]
     public function expect_only_authenticated_user_can_access_listing_page(): void
     {
-        $this->get('/expense-listings')
-            ->assertRedirect('login');
+        $this->get(route('expense-listings.index'))
+            ->assertStatus(302);
 
         $this->be($this->user1)
-            ->get("/expense-listings")
+            ->get(route('expense-listings.index'))
             ->assertStatus(200);
 
     }

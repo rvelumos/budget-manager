@@ -40,11 +40,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     //Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::prefix('expense-listings')->group(function () {
+        Route::resource('expense-listings', ExpenseListingController::class);
         Route::resource('expenses', ExpenseController::class);
         Route::get('{expenseList}/expenses', [ExpenseController::class, 'index'])->name('expense-listings.expenses.index');
     });
 
     Route::prefix('income-listings')->group(function () {
+        Route::resource('expense-listings', ExpenseListingController::class);
         Route::resource('incomes', incomeController::class);
         Route::get('{incomeList}/incomes', [incomeController::class, 'index'])->name('income-listings.incomes.index');
     });
