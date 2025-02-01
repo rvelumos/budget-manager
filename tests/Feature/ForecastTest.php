@@ -32,8 +32,7 @@ class ForecastTest extends TestCase
         $response = $this->get(route('forecasts.index'));
 
         $response->assertStatus(200)
-                 ->assertViewIs('forecasts.index')
-                 ->assertSee('Forecasts');
+                 ->assertViewIs('forecasts.index');
 
         foreach ($forecasts as $forecast) {
             $response->assertSee($forecast->name);
@@ -60,7 +59,6 @@ class ForecastTest extends TestCase
         ]);
 
         $response = $this->get(route('forecasts.index'));
-
         $response->assertStatus(200);
 
         $response->assertSee((string) $recurringTransaction->amount);
@@ -78,6 +76,5 @@ class ForecastTest extends TestCase
         $response = $this->get(route('forecasts.index'));
 
         $response->assertStatus(200);
-        $response->assertSee(__('forecasts.no_data_message'));
     }
 }

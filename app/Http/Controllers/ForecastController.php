@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Income;
 use App\Models\Expense;
+use App\Models\RecurringTransaction;
+use App\Models\Transaction;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -17,21 +19,22 @@ class ForecastController extends Controller
     {
         $currentMonth = now()->month;
 
-        $totalIncome = Income::whereMonth('date', $currentMonth)
+        $totalIncome = RecurringTransaction::whereMonth('start_date', $currentMonth)
             ->where('user_id', auth()->id())
+            ->where('type', 'income')
             ->sum('amount');
 
-        $totalExpense = Expense::whereMonth('date', $currentMonth)
+        $totalExpense = Transaction::whereMonth('date', $currentMonth)
             ->where('user_id', auth()->id())
+            ->where('type', 'expense')
             ->sum('amount');
 
         $netSavings = $totalIncome - $totalExpense;
 
-        $expensesByCategory = Expense::whereMonth('date', $currentMonth)
+        $expensesByCategory = Transaction::whereMonth('date', $currentMonth)
             ->where('user_id', auth()->id())
+            ->where('type', 'expense')
             ->with('category')
-            ->selectRaw('category_id, SUM(amount) as total_amount')
-            ->groupBy('category_id')
             ->get();
 
         $forecasts = (object)[
