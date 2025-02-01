@@ -130,11 +130,11 @@ class TransactionTest extends TestCase
         $otherUser = User::factory()->create();
 
         $transaction = Transaction::factory()->create(['user_id' => $otherUser->id]);
-        $response = $this->delete(route('transactions.destroy', $transaction->id), ['type' => 'regular']);
+        $response = $this->delete(route('transactions.destroy', ['type' => 'regular', 'id' => $transaction->id]));
         $response->assertStatus(403);
 
         $recurringTransaction = RecurringTransaction::factory()->create(['user_id' => $otherUser->id]);
-        $response = $this->delete(route('transactions.destroy', $recurringTransaction->id), ['type' => 'recurring']);
+        $response = $this->delete(route('transactions.destroy', ['type' => 'recurring', 'id' => $recurringTransaction->id]));
         $response->assertStatus(403);
     }
 }

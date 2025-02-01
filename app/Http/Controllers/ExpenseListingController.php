@@ -21,7 +21,7 @@ class ExpenseListingController extends Controller
     public function show(ExpenseListing $expenseListing): View
     {
 
-        if ($expenseListing->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
+        if ($expenseListing->user_id !== auth()->id() || auth()->user()->isAdmin()) {
             abort(403, __('Unauthorized access.'));
         }
 
@@ -54,12 +54,12 @@ class ExpenseListingController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('expense-lists.index')->with('success', __('Expense listing created successfully.'));
+        return redirect()->route('expense-listings.index')->with('success', __('Expense listing created successfully.'));
     }
 
     public function edit(ExpenseListing $expenseListing): View|Factory|Application
     {
-        return view('expenselistings.edit', compact('expenseListing'));
+        return view('expense-listings.edit', compact('expenseListing'));
     }
 
     public function update(Request $request, ExpenseListing $expenseListing): RedirectResponse
@@ -71,7 +71,7 @@ class ExpenseListingController extends Controller
 
         $expenseListing->update($request->only(['name', 'description']));
 
-        return redirect()->route('expenselistings.index')->with('success', __('messages.expense_listing_updated'));
+        return redirect()->route('expense-listings.index')->with('success', __('messages.expense_listing_updated'));
     }
 
     public function destroy(ExpenseListing $ExpenseListing): RedirectResponse

@@ -6,8 +6,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-//use App\Http\Controllers\UserController;
-//use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ForecastController;
@@ -46,12 +44,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
     Route::prefix('income-listings')->group(function () {
-        Route::resource('expense-listings', ExpenseListingController::class);
+        Route::resource('income-listings', IncomeListingController::class);
         Route::resource('incomes', incomeController::class);
         Route::get('{incomeList}/incomes', [incomeController::class, 'index'])->name('income-listings.incomes.index');
     });
 
-    Route::resource('transactions', TransactionController::class);
+    Route::resource('transactions/', TransactionController::class);
     Route::put('transactions/{transaction}/{type}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::get('transactions/{type}/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
     Route::delete('transactions/{type}/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');

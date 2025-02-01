@@ -47,7 +47,7 @@ class ExpenseController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('expense-lists.expenses.index', $expenseList)->with('success', 'Expense added successfully.');
+        return redirect()->route('expense-listings.expenses.index', $expenseList)->with('success', 'Expense added successfully.');
     }
 
     public function edit(ExpenseListing $expenseList, Expense $expense): View|Factory|Application
@@ -66,7 +66,7 @@ class ExpenseController extends Controller
 
         $expense->update($request->all());
 
-        return redirect()->route('expense-lists.expenses.index', $expenseList)->with('success', 'Expense updated successfully.');
+        return redirect()->route('expense-listings.expenses.index', $expenseList)->with('success', 'Expense updated successfully.');
     }
 
     public function destroy(ExpenseListing $expenseList, Expense $expense): RedirectResponse

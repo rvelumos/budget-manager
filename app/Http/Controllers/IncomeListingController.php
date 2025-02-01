@@ -14,8 +14,20 @@ class IncomeListingController extends Controller
 {
     public function index(): View|Factory|Application
     {
-        $IncomeListings = IncomeListing::where('user_id', auth()->id())->get();
-        return view('income-listings.index', compact('IncomeListings'));
+        $incomeListings = IncomeListing::where('user_id', auth()->id())->get();
+        return view('income-listings.index', compact('incomeListings'));
+    }
+
+    public function show(IncomeListing $incomeListing): View
+    {
+
+        if ($incomeListing->user_id !== auth()->id() || auth()->user()->isAdmin()) {
+            abort(403, __('Unauthorized access.'));
+        }
+
+        $incomes = $incomeListing->incomes()->with('category')->get();
+
+        return view('income-listings.show', compact('incomeListing', '$incomes'));
     }
 
     public function create(): View|Factory|Application
@@ -26,6 +38,14 @@ class IncomeListingController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate(['name' => 'required|string|max:255']);
+
+        $userIncomeCount = IncomeListing::where('user_id', auth()->id())->count();
+
+        if ($userIncomeCount >= 5) {
+            return redirect()->back()->withErrors([
+                'limit' => __('You cannot create more than 5 income listings.'),
+            ]);
+        }
 
         IncomeListing::create([
             'name' => $request->name,

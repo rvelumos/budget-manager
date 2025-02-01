@@ -58,13 +58,13 @@ class IncomeListingTest extends TestCase
 
         $this->actingAs($this->user1);
 
-        IncomeListing::factory()->count(9)->create(['user_id' => $this->user1->id]);
+        IncomeListing::factory()->count(4)->create(['user_id' => $this->user1->id]);
 
         $response = $this->post(route('income-listings.store'), [
             'name' => 'Extra Income Listing',
         ]);
 
-        $response->assertSessionHasErrors(['limit' => __('You cannot create more than 10 income listings.')]);
+        $response->assertSessionHasErrors(['limit' => __('You cannot create more than 5 income listings.')]);
 
         $this->assertCount(
             5,
