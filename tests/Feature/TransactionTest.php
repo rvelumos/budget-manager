@@ -94,9 +94,10 @@ class TransactionTest extends TestCase
 
         $updatedData = [
             'amount' => 200.75,
+            'date' => now()->toDateString(),
         ];
 
-        $response = $this->put(route('transactions.update', $transaction), $updatedData);
+        $response = $this->put(route('transactions.update', [$transaction->id, 'regular']), $updatedData);
 
         $response->assertStatus(403);
     }

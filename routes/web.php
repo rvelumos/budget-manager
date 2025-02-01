@@ -52,6 +52,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
     Route::resource('transactions', TransactionController::class);
+    Route::put('transactions/{transaction}/{type}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::get('transactions/{type}/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
     Route::delete('transactions/{type}/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 

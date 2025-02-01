@@ -90,6 +90,10 @@ class TransactionController extends Controller
         if ($type === 'recurring') {
             $transaction = RecurringTransaction::findOrFail($id);
 
+            if ($transaction->user_id !== auth()->id()) {
+                abort(403, 'Forbidden');
+            }
+
             $request->validate([
                 'amount' => 'required|numeric',
                 'frequency' => 'required|string',
@@ -106,6 +110,10 @@ class TransactionController extends Controller
             ]);
         } else {
             $transaction = Transaction::findOrFail($id);
+
+            if ($transaction->user_id !== auth()->id()) {
+                abort(403, 'Forbidden');
+            }
 
             $request->validate([
                 'amount' => 'required|numeric',

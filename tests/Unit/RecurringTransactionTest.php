@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Models\User;
 use Tests\TestCase;
 use App\Models\RecurringTransaction;
-use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 
@@ -15,9 +15,10 @@ class RecurringTransactionTest extends TestCase
     #[Test]
     public function expect_we_can_create_a_recurring_transaction()
     {
+        $userId = User::factory()->create()->id;
+
         RecurringTransaction::factory()->create([
-            'user_id' => 1,
-            'name' => 'Monthly Rent',
+            'user_id' => $userId,
             'amount' => 1200.00,
             'frequency' => 'monthly',
             'start_date' => now(),
@@ -25,7 +26,7 @@ class RecurringTransactionTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('recurring_transactions', [
-            'name' => 'Monthly Rent',
+            'user_id' => $userId,
             'amount' => 1200.00,
         ]);
     }
