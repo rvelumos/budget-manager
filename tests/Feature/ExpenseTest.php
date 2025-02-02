@@ -28,7 +28,7 @@ class ExpenseTest extends TestCase
         $this->expenseListing = ExpenseListing::factory()->create(['user_id' => $this->user1->id]);
         $this->expense = Expense::factory()->create([
             'category_id' => $this->category->id,
-            'expense_list_id' => $this->expenseListing->id,
+            'expense_listing_id' => $this->expenseListing->id,
             'user_id' => $this->user1->id,
         ]);
     }
@@ -53,13 +53,14 @@ class ExpenseTest extends TestCase
             'name' => 'Insurance',
             'description' => 'This should fail',
             'amount' => 100,
+            'expense_listing_id' => $this->expenseListing->id,
             'category_id' => 1,
             'date' => now(),
         ]);
 
         $response->assertSessionHasErrors('name');
 
-        $this->assertEquals(1, Expense::where('name', 'Insurance')->where('expense_list_id', $this->expenseListing->id)->count());
+        $this->assertEquals(1, Expense::where('name', 'Insurance')->where('expense_listing_id', $this->expenseListing->id)->count());
     }
 
     #[Test]
@@ -74,7 +75,7 @@ class ExpenseTest extends TestCase
             'category_id' => 1,
             'date' => now()->toDateString(),
             'description' => 'Test Expense',
-            'expense_list_id' => $this->expenseListing->id,
+            'expense_listing_id' => $this->expenseListing->id,
         ]);
 
         $response->assertRedirect(route('expenses.index', $this->expenseListing->id));
@@ -85,7 +86,7 @@ class ExpenseTest extends TestCase
             'category_id' => 1,
             'date' => now()->toDateString(),
             'description' => 'Negative Expense',
-            'expense_list_id' => $this->expenseListing->id,
+            'expense_listing_id' => $this->expenseListing->id,
         ]);
 
         $response->assertSessionHasErrors('amount');
@@ -96,7 +97,7 @@ class ExpenseTest extends TestCase
             'category_id' => 1,
             'date' => now()->toDateString(),
             'description' => 'Non-Numeric Expense',
-            'expense_list_id' => $this->expenseListing->id,
+            'expense_listing_id' => $this->expenseListing->id,
         ]);
 
         $response->assertSessionHasErrors('amount');

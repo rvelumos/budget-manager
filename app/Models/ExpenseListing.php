@@ -15,7 +15,7 @@ class ExpenseListing extends Model
 
     public function expenses(): HasMany
     {
-        return $this->hasMany(Expense::class, 'expense_list_id');
+        return $this->hasMany(Expense::class, 'expense_listing_id');
     }
 
     public function user(): BelongsTo

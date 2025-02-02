@@ -36,6 +36,7 @@ class ExpenseController extends Controller
             'amount' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'date' => 'required|date',
+            'expense_listing_id' => 'required|numeric|min:0',
             'description' => 'nullable|string',
         ]);
 
@@ -43,6 +44,7 @@ class ExpenseController extends Controller
             'amount' => $request->amount,
             'category_id' => $request->category_id,
             'date' => $request->date,
+            'expense_listing_id' => $request->expense_listing_id,
             'description' => $request->description,
             'user_id' => auth()->id(),
         ]);

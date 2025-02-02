@@ -25,7 +25,7 @@ class ExpenseListingTest extends TestCase
     }
 
     #[Test]
-    public function expect_only_authenticated_user_can_access_listing_page(): void
+    public function expect_only_authenticated_user_can_access_expense_listing_page(): void
     {
         $this->get(route('expense-listings.index'))
             ->assertStatus(302);
@@ -44,7 +44,7 @@ class ExpenseListingTest extends TestCase
 
         Expense::factory()->create([
             'user_id' => $this->user1->id,
-            'expense_list_id' => $expenseListing->id,
+            'expense_listing_id' => $expenseListing->id,
         ]);
 
         $response = $this->actingAs($this->adminUser)->get(route('expense-listings.show', $expenseListing->id));
