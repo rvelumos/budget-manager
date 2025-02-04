@@ -69,7 +69,7 @@ class ExpenseTest extends TestCase
 
         $this->actingAs($this->user1);
 
-        $response = $this->post(route('expenses.store', $this->expenseListing->id), [
+        $response = $this->post(route('expenses.store', $this->expenseListing), [
             'name' => 'Valid Expense',
             'amount' => 100,
             'category_id' => 1,
@@ -78,9 +78,9 @@ class ExpenseTest extends TestCase
             'expense_listing_id' => $this->expenseListing->id,
         ]);
 
-        $response->assertRedirect(route('expenses.index', $this->expenseListing->id));
+        $response->assertRedirect(route('expense-listings.expenses.index', $this->expenseListing));
 
-        $response = $this->post(route('expenses.store', $this->expenseListing->id), [
+        $response = $this->post(route('expenses.store', $this->expenseListing), [
             'name' => 'Negative Expense',
             'amount' => -50,
             'category_id' => 1,
@@ -88,10 +88,9 @@ class ExpenseTest extends TestCase
             'description' => 'Negative Expense',
             'expense_listing_id' => $this->expenseListing->id,
         ]);
-
         $response->assertSessionHasErrors('amount');
 
-        $response = $this->post(route('expenses.store', $this->expenseListing->id), [
+        $response = $this->post(route('expenses.store', $this->expenseListing), [
             'name' => 'Non-Numeric Expense',
             'amount' => 'Blablabla',
             'category_id' => 1,
@@ -99,7 +98,6 @@ class ExpenseTest extends TestCase
             'description' => 'Non-Numeric Expense',
             'expense_listing_id' => $this->expenseListing->id,
         ]);
-
         $response->assertSessionHasErrors('amount');
     }
 

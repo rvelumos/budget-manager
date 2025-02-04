@@ -73,6 +73,10 @@ class ExpenseController extends Controller
 
     public function destroy(ExpenseListing $expenseList, Expense $expense): RedirectResponse
     {
+        if ($expense->user_id !== auth()->id()) {
+            abort(403, 'Forbidden');
+        }
+
         $expense->delete();
         return redirect()->route('expense-listings.expenses.index', $expenseList)->with('success', 'Expense deleted successfully.');
     }

@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -87,13 +88,14 @@ dd("2");
         return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
     }
 
-    public function destroy(Income $income): RedirectResponse
+    public function destroy(Income $income): JsonResponse|RedirectResponse
     {
         try {
             $this->authorize('delete', $income);
         } catch (AuthorizationException $e) {
-
+            return response()->json(['message' => 'Forbidden'], 403);
         }
+
         $income->delete();
 
         return redirect()->route('incomes.index')->with('success', 'Income deleted successfully.');

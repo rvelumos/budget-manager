@@ -25,8 +25,11 @@
                     </td>
                     <td>{{ ucfirst($transaction->type) }}</td>
                     <td>
-                        <a href="{{ route('transactions.edit', ['type' => $transaction->type, 'id' => $transaction->id]) }}" class="btn btn-primary btn-sm">{{ __('Edit') }}</a>
-                        <form action="{{ route('transactions.destroy', ['type' => $transaction->type, 'id' => $transaction->id]) }}" method="POST" style="display:inline;">
+                        <!-- Corrected route generation for edit -->
+                        <a href="{{ route('transactions.edit', $transaction->id) }}" class="btn btn-primary btn-sm">{{ __('Edit') }}</a>
+
+                        <!-- Corrected route generation for destroy -->
+                        <form action="{{ route('transactions.destroy', $transaction->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">{{ __('Delete') }}</button>

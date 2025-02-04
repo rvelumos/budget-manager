@@ -60,6 +60,7 @@ class TransactionController extends Controller
         } else {
             $request->validate([
                 'amount' => 'required|numeric',
+                'type' => 'required|string',
                 'date' => 'required|date',
             ]);
 
@@ -67,6 +68,7 @@ class TransactionController extends Controller
                 'user_id' => auth()->id(),
                 'amount' => $request->amount,
                 'date' => $request->date,
+                'type' => $request->type,
                 'description' => $request->description,
             ]);
         }

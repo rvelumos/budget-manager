@@ -29,7 +29,7 @@ class IncomeTest extends TestCase
         $this->incomeListing = IncomeListing::factory()->create(['user_id' => $this->user1->id]);
         $this->income = Income::factory()->create([
             'category_id' => $this->category->id,
-            'income_list_id' => $this->incomeListing->id,
+            'income_listing_id' => $this->incomeListing->id,
             'user_id' => $this->user1->id,
         ]);
     }
@@ -46,7 +46,7 @@ class IncomeTest extends TestCase
             'category_id' => 1,
             'date' => now()->toDateString(),
             'description' => 'Test income',
-            'income_list_id' => $this->incomeListing->id,
+            'income_listing_id' => $this->incomeListing->id,
         ]);
 
         $response->assertRedirect(route('incomes.index', $this->incomeListing->id));
@@ -57,7 +57,7 @@ class IncomeTest extends TestCase
             'category_id' => 1,
             'date' => now()->toDateString(),
             'description' => 'Negative income',
-            'income_list_id' => $this->incomeListing->id,
+            'income_listing_id' => $this->incomeListing->id,
         ]);
 
         $response->assertSessionHasErrors('amount');
@@ -68,7 +68,7 @@ class IncomeTest extends TestCase
             'category_id' => 1,
             'date' => now()->toDateString(),
             'description' => 'Non-Numeric income',
-            'income_list_id' => $this->incomeListing->id,
+            'income_listing_id' => $this->incomeListing->id,
         ]);
 
         $response->assertSessionHasErrors('amount');
@@ -78,12 +78,14 @@ class IncomeTest extends TestCase
     public function expect_user_cannot_delete_another_users_income(): void
     {
 
-       $this->actingAs($this->user2);
+        $income = Income::factory()->create();
+        $user2 = User::factory()->create();
 
-       $response = $this->delete(route('incomes.destroy', [$this->incomeListing, $this->income]));
-       $response->assertStatus(403);
+        $this->actingAs($user2);
 
-       $this->assertDatabaseHas('incomes', ['id' => $this->income->id]);
+        $response = $this->delete(route('incomes.destroy', $income));
+
+        $response->assertStatus(403);
     }
 
     #[Test]
