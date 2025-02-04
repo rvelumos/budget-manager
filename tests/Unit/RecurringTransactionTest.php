@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\RecurringTransaction;
 use PHPUnit\Framework\Attributes\Test;
@@ -13,7 +14,7 @@ class RecurringTransactionTest extends TestCase
     use FastRefreshDatabase;
 
     #[Test]
-    public function expect_we_can_create_a_recurring_transaction()
+    public function expect_we_can_create_a_recurring_transaction(): void
     {
         $userId = User::factory()->create()->id;
 
@@ -32,23 +33,27 @@ class RecurringTransactionTest extends TestCase
     }
 
     #[Test]
-    public function expect_we_can_calculate_the_next_occurrence()
+    public function expect_we_can_calculate_the_next_occurrence(): void
     {
         $recurringTransaction = RecurringTransaction::factory()->create([
+            'start_date' => now()->toDateString(),
             'frequency' => 'weekly',
-            'start_date' => now()->subWeek(),
         ]);
 
         $nextDate = $recurringTransaction->calculateNextOccurrence();
 
-        $this->assertEquals(now()->addWeek()->format('Y-m-d'), $nextDate->format('Y-m-d'));
+        $expectedDate = Carbon::parse($recurringTransaction->start_date)->addWeek()->format('Y-m-d');
+
+        $this->assertEquals($expectedDate, $nextDate->format('Y-m-d'));
     }
 
     #[Test]
-    public function expect_we_can_stop_recurring_transactions_after_end_date()
+    public function expect_we_can_stop_recurring_transactions_after_end_date(): void
     {
         $recurringTransaction = RecurringTransaction::factory()->create([
-            'end_date' => now()->subDay(),
+            'start_date' => now()->subMonth()->toDateString(),
+            'end_date' => now()->subDay()->toDateString(),
+            'frequency' => 'weekly',
         ]);
 
         $this->assertFalse($recurringTransaction->isActive());

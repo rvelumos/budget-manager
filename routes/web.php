@@ -49,10 +49,21 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('{incomeList}/incomes', [incomeController::class, 'index'])->name('income-listings.incomes.index');
     });
 
-    Route::resource('transactions/', TransactionController::class);
-    Route::put('transactions/{transaction}/{type}', [TransactionController::class, 'update'])->name('transactions.update');
-    Route::get('transactions/{type}/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
-    Route::delete('transactions/{type}/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+    Route::prefix('transactions')->name('transactions.')->group(function () {
+
+        Route::get('/', [TransactionController::class, 'index'])->name('index');
+        Route::post('/', [TransactionController::class, 'store'])->name('store');
+        Route::get('/{transaction}/edit', [TransactionController::class, 'edit'])->name('edit');
+        Route::put('/{transaction}', [TransactionController::class, 'update'])->name('update');
+        Route::delete('/{transaction}', [TransactionController::class, 'destroy'])->name('destroy');
+
+        Route::prefix('recurring')->name('recurring.')->group(function () {
+            Route::post('/', [TransactionController::class, 'storeRecurring'])->name('store');
+            Route::get('/{transaction}/edit', [TransactionController::class, 'editRecurring'])->name('edit');
+            Route::put('/{transaction}', [TransactionController::class, 'updateRecurring'])->name('update');
+            Route::delete('/{transaction}', [TransactionController::class, 'destroyRecurring'])->name('destroy');
+        });
+    });
 
     Route::get('transactions/import', [TransactionController::class, 'import'])->name('transactions.import');
     Route::post('transactions/import', [TransactionController::class, 'storeImport'])->name('transactions.storeImport');

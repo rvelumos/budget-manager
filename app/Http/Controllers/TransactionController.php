@@ -85,9 +85,10 @@ class TransactionController extends Controller
         return view('transactions.edit', compact('transaction', 'type'));
     }
 
-    public function update(Request $request, $id, $type): RedirectResponse
+    public function update(Request $request, $id, $type='regular'): RedirectResponse
     {
-        if ($type === 'recurring') {
+
+        if ($type == 'recurring') {
             $transaction = RecurringTransaction::findOrFail($id);
 
             if ($transaction->user_id !== auth()->id()) {

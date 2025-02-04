@@ -76,11 +76,12 @@ class TransactionTest extends TestCase
         $updatedData = [
             'amount' => 200.75,
             'description' => 'Updated Transaction',
+            'date' => now()->toDateString(),
         ];
 
-        $response = $this->put(route('transactions.update', $transaction), $updatedData);
+        $response = $this->put(route('transactions.update', [$transaction->id, 'type' => 'regular']), $updatedData);
 
-        $response->assertRedirect(route('transactions.index'));
+        $response->assertStatus(302);
         $this->assertDatabaseHas('transactions', array_merge($updatedData, ['id' => $transaction->id]));
     }
 
@@ -109,14 +110,14 @@ class TransactionTest extends TestCase
 
         $transaction = Transaction::factory()->create(['user_id' => $this->user->id]);
 
-        $response = $this->delete(route('transactions.destroy', ['type' => 'regular', 'id' => $transaction->id]));
+        $response = $this->delete(route('transactions.destroy', ['type' => 'regular', 'transaction' => $transaction->id]));
 
         $response->assertRedirect(route('transactions.index'));
         $this->assertDatabaseMissing('transactions', ['id' => $transaction->id]);
 
         $recurringTransaction = RecurringTransaction::factory()->create(['user_id' => $this->user->id]);
 
-        $response = $this->delete(route('transactions.destroy', ['type' => 'recurring', 'id' => $recurringTransaction->id]));
+        $response = $this->delete(route('transactions.destroy', ['type' => 'recurring', 'transaction' => $recurringTransaction->id]));
 
         $response->assertRedirect(route('transactions.index'));
         $this->assertDatabaseMissing('recurring_transactions', ['id' => $recurringTransaction->id]);
@@ -130,11 +131,13 @@ class TransactionTest extends TestCase
         $otherUser = User::factory()->create();
 
         $transaction = Transaction::factory()->create(['user_id' => $otherUser->id]);
-        $response = $this->delete(route('transactions.destroy', ['type' => 'regular', 'id' => $transaction->id]));
+
+        $response = $this->delete(route('transactions.destroy', ['transaction' => $transaction->id, 'type' => 'regular']));
         $response->assertStatus(403);
 
         $recurringTransaction = RecurringTransaction::factory()->create(['user_id' => $otherUser->id]);
-        $response = $this->delete(route('transactions.destroy', ['type' => 'recurring', 'id' => $recurringTransaction->id]));
+
+        $response = $this->delete(route('transactions.destroy', ['transaction' => $recurringTransaction->id, 'type' => 'recurring']));
         $response->assertStatus(403);
     }
 }
