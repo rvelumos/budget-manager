@@ -1,6 +1,34 @@
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ __('Budget Manager') }}</title>
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+</head>
+<body>
+
 <nav>
-    <ul>
-        <li><a href="{{ route('locale', ['lang' => 'en']) }}">English</a></li>
-        <li><a href="{{ route('locale', ['lang' => 'nl']) }}">Nederlands</a></li>
-    </ul>
+    <a href="{{ route('home') }}">{{ __('Home') }}</a>
+
+    @guest
+        <a href="{{ route('login') }}">{{ __('Login') }}</a>
+        <a href="{{ route('register') }}">{{ __('Register') }}</a>
+    @endguest
+
+    {{-- Language Switcher --}}
+    <form action="{{ route('language.switch') }}" method="POST" style="display:inline;">
+        @csrf
+        <select name="language" onchange="this.form.submit()">
+            <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>🇬🇧 English</option>
+            <option value="nl" {{ app()->getLocale() === 'nl' ? 'selected' : '' }}>🇳🇱 Nederlands</option>
+        </select>
+    </form>
 </nav>
+
+<main>
+    @yield('content')
+</main>
+
+</body>
+</html>

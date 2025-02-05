@@ -5,6 +5,8 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IncomeController;
@@ -16,8 +18,12 @@ use App\Http\Controllers\AuthController;
 
 Route::middleware(['setLocale'])->group(function () {
     Route::get('/', function () {
+        if (auth()->check()) {
+            //return redirect()->route('dashboard');
+            return view('welcome');
+        }
         return view('welcome');
-    });
+    })->name('home');
 
     Route::get('locale/{lang}', function ($lang) {
         if (in_array($lang, ['en', 'nl'])) {
@@ -25,6 +31,15 @@ Route::middleware(['setLocale'])->group(function () {
         }
         return redirect()->back();
     })->name('locale');
+
+    Route::post('/switch-language', function (Request $request) {
+        $language = $request->input('language');
+        if (in_array($language, ['en', 'nl'])) {
+            session(['locale' => $language]);
+            App::setLocale($language);
+        }
+        return redirect()->back();
+    })->name('language.switch');
 });
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

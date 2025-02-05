@@ -8,8 +8,15 @@ class SetLocale
 {
     public function handle($request, Closure $next)
     {
-        $locale = session('locale', config('app.locale'));
-        App::setLocale($locale);
+        $locale = session('locale', 'en');
+
+        if (in_array($locale, ['en', 'nl'])) {
+
+            App::setLocale($locale);
+            setlocale(LC_ALL, $locale . '_' . strtoupper($locale));
+        }
+
         return $next($request);
+
     }
 }
