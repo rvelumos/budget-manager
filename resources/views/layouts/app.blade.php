@@ -16,7 +16,6 @@
         <a href="{{ route('register') }}">{{ __('Register') }}</a>
     @endguest
 
-    {{-- Language Switcher --}}
     <form action="{{ route('language.switch') }}" method="POST" style="display:inline;">
         @csrf
         <select name="language" onchange="this.form.submit()">
@@ -26,9 +25,15 @@
     </form>
 </nav>
 
-<main>
-    @yield('content')
-</main>
+<div class="wrapper">
+    @auth
+            @include('components.sidebar')
+    @endauth
+
+    <main>
+        @yield('content')
+    </main>
+</div>
 
 </body>
 </html>

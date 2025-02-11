@@ -68,4 +68,8 @@ return [
     'password' => 'Password',
     'confirm_password' => 'Confirm Password',
     'back_to_users' => 'Back to Users',
+    'title' => 'Dashboard',
+    'subtitle' => 'Your financial overview for this month',
+    'total_expense' => 'Total Expenses',
+    'expense_by_category' => 'Expenses by Category',
 ];

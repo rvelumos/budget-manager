@@ -67,5 +67,9 @@ return [
     'password' => 'Wachtwoord',
     'confirm_password' => 'Bevestig Wachtwoord',
     'back_to_users' => 'Terug naar Gebruikers',
+    'title' => 'Dashboard',
+    'subtitle' => 'Jouw financiële overzicht voor deze maand',
+    'total_expense' => 'Totale Uitgaven',
+    'expense_by_category' => 'Uitgaven per Categorie',
 
 ];
