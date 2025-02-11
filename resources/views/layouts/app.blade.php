@@ -9,7 +9,7 @@
 <body>
 
 <nav>
-    <a href="{{ route('home') }}">{{ __('Home') }}</a>
+{{--    <a href="{{ route('home') }}">{{ __('Home') }}</a>--}}
 
     @guest
         <a href="{{ route('login') }}">{{ __('Login') }}</a>

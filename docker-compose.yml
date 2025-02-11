@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-    # PHP Service
     app:
         build:
             context: .
@@ -25,7 +24,6 @@ services:
         networks:
             - laravel
 
-    # MySQL Service
     db:
         image: mysql:8.0
         container_name: laravel-db
@@ -42,7 +40,6 @@ services:
         networks:
             - laravel
 
-    # Nginx Service
     web:
         image: nginx:alpine
         container_name: laravel-web
@@ -55,11 +52,9 @@ services:
         networks:
             - laravel
 
-# Volumes
 volumes:
     dbdata:
 
-# Networks
 networks:
     laravel:
         driver: bridge

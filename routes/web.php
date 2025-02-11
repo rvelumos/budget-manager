@@ -50,7 +50,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    //Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::prefix('expense-listings')->group(function () {
         Route::resource('expense-listings', ExpenseListingController::class);
