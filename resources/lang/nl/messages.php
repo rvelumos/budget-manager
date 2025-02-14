@@ -72,4 +72,10 @@ return [
     'total_expense' => 'Totale Uitgaven',
     'expense_by_category' => 'Uitgaven per Categorie',
 
+    'import_transactions' => 'Transacties importeren',
+    'upload_csv' => 'Upload CSV-bestand',
+    'import' => 'Importeren',
+    'success_message' => 'Transacties succesvol geïmporteerd!',
+    'error_message' => 'Er is een fout opgetreden bij het verwerken van het bestand.',
+    'file_required' => 'Upload een CSV-bestand.',
 ];

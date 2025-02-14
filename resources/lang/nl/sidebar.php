@@ -4,7 +4,7 @@ return [
     'dashboard' => 'Dashboard',
     'expenses' => 'Uitgaven',
     'income' => 'Inkomsten',
-    'import' => 'Transactie Import',
+    'import' => 'Transactie Imports',
     'forecast' => 'Voorspelling',
     'settings' => 'Account Instellingen',
     'user_overview' => 'Gebruikersoverzicht',

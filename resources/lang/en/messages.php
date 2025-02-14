@@ -72,4 +72,11 @@ return [
     'subtitle' => 'Your financial overview for this month',
     'total_expense' => 'Total Expenses',
     'expense_by_category' => 'Expenses by Category',
+
+    'import_transactions' => 'Imports Transactions',
+    'upload_csv' => 'Upload CSV File',
+    'import' => 'Imports',
+    'success_message' => 'Transactions imported successfully!',
+    'error_message' => 'There was an error processing the file.',
+    'file_required' => 'Please upload a CSV file.',
 ];

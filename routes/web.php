@@ -5,6 +5,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionImportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
@@ -59,6 +60,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('{expenseList}/expenses', [ExpenseController::class, 'index'])->name('expense-listings.expenses.index');
     });
 
+//    Route::prefix('expense-listings')->group(function () {
+//        Route::resource('/', ExpenseListingController::class);
+//
+//        Route::resource('{expenseListing}/expenses', ExpenseController::class)
+//            ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+//            ->parameters(['expenses' => 'expense']);
+//    });
+
     Route::prefix('income-listings')->group(function () {
         Route::resource('income-listings', IncomeListingController::class);
         Route::resource('incomes', incomeController::class);
@@ -81,8 +90,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         });
     });
 
-    Route::get('transactions/import', [TransactionController::class, 'import'])->name('transactions.import');
-    Route::post('transactions/import', [TransactionController::class, 'storeImport'])->name('transactions.storeImport');
+    Route::get('/transactions/import', [TransactionImportController::class, 'showImportForm'])->name('transactions.import');
+    Route::post('/transactions/import', [TransactionImportController::class, 'import'])->name('transactions.import.process');
 
     Route::resource('budgets', BudgetController::class);
 

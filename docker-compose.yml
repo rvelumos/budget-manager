@@ -14,13 +14,13 @@ services:
         environment:
             - APP_ENV=local
             - APP_DEBUG=true
-            - APP_KEY=base64:your-app-key-here
+            - APP_KEY=base64:CoYApKV6UKIfl2IQbkCpfoBBTWA0KldJuQtja9Pamv4=
             - DB_CONNECTION=mysql
             - DB_HOST=db
-            - DB_PORT=3306
+            - DB_PORT=3307
             - DB_DATABASE=laravel
             - DB_USERNAME=root
-            - DB_PASSWORD=secret
+            - DB_PASSWORD=password
         networks:
             - laravel
 
@@ -30,13 +30,13 @@ services:
         restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: secret
-            MYSQL_DATABASE: laravel
-            MYSQL_USER: root
+            MYSQL_DATABASE: budget_manager
+            MYSQL_USER: budget_user
             MYSQL_PASSWORD: secret
         volumes:
             - dbdata:/var/lib/mysql
         ports:
-            - "3306:3306"
+            - "3307:3306"  # Fix port mapping (should be 3306 inside the container)
         networks:
             - laravel
 

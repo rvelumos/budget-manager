@@ -12,10 +12,10 @@ use Illuminate\Routing\Controller;
 
 class ExpenseListingController extends Controller
 {
-    public function index(): View|Factory|Application
+    public function index(ExpenseListing $expenseListing): View|Factory|Application
     {
-        $ExpenseListings = ExpenseListing::where('user_id', auth()->id())->get();
-        return view('expense-listings.index', compact('ExpenseListings'));
+        $expenses = $expenseListing->expenses;
+        return view('expenses.index', compact('expenseListing', 'expenses'));
     }
 
     public function show(ExpenseListing $expenseListing): View
@@ -30,9 +30,9 @@ class ExpenseListingController extends Controller
         return view('expense-listings.show', compact('expenseListing', 'expenses'));
     }
 
-    public function create(): View|Factory|Application
+    public function create(ExpenseListing $expenseListing): Application|Factory|View
     {
-        return view('expense-listings.create');
+        return view('expenses.create', compact('expenseListing'));
     }
 
     public function store(Request $request): RedirectResponse
