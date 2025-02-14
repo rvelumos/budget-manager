@@ -11,6 +11,7 @@ class ExpenseListing extends Model
 {
     use HasFactory;
 
+    public mixed $user_id;
     protected $fillable = ['name', 'user_id'];
 
     public function expenses(): HasMany

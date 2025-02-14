@@ -4,10 +4,11 @@ namespace App\Traits;
 
 use App\Models\Expense;
 use App\Models\Income;
+use Illuminate\Http\JsonResponse;
 
 trait HasCurrentMonthData
 {
-    public function currentMonthExpenses()
+    public function currentMonthExpenses(): JsonResponse
     {
         $expenses = Expense::where('user_id', auth()->id())
             ->whereMonth('date', now()->month)
@@ -17,7 +18,7 @@ trait HasCurrentMonthData
         return response()->json($expenses);
     }
 
-    public function currentMonthIncomes()
+    public function currentMonthIncomes(): JsonResponse
     {
         $incomes = Income::where('user_id', auth()->id())
             ->whereMonth('date', now()->month)

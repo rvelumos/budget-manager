@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Income;
 use App\Models\Expense;
 use App\Models\RecurringTransaction;
 use App\Models\Transaction;

@@ -12,7 +12,7 @@ class ProcessRecurringTransactions extends Command
     protected $signature = 'transactions:process-recurring';
     protected $description = 'Generate transactions for recurring entries';
 
-    public function handle()
+    public function handle(): void
     {
         $now = Carbon::now();
 
@@ -37,19 +37,14 @@ class ProcessRecurringTransactions extends Command
         $this->info('Recurring transactions processed.');
     }
 
-    protected function calculateNextOccurrence($currentDate, $frequency)
+    protected function calculateNextOccurrence(Carbon $currentDate, string $frequency): Carbon
     {
-        switch ($frequency) {
-            case 'daily':
-                return Carbon::parse($currentDate)->addDay();
-            case 'weekly':
-                return Carbon::parse($currentDate)->addWeek();
-            case 'monthly':
-                return Carbon::parse($currentDate)->addMonth();
-            case 'yearly':
-                return Carbon::parse($currentDate)->addYear();
-            default:
-                return $currentDate;
-        }
+        return match ($frequency) {
+            'daily' => Carbon::parse($currentDate)->addDay(),
+            'weekly' => Carbon::parse($currentDate)->addWeek(),
+            'monthly' => Carbon::parse($currentDate)->addMonth(),
+            'yearly' => Carbon::parse($currentDate)->addYear(),
+            default => $currentDate,
+        };
     }
 }
