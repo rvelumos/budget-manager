@@ -54,24 +54,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    Route::prefix('expense-listings')->group(function () {
-        Route::resource('expense-listings', ExpenseListingController::class);
-        Route::resource('expenses', ExpenseController::class);
-        Route::get('{expenseList}/expenses', [ExpenseController::class, 'index'])->name('expense-listings.expenses.index');
+    Route::resource('expense-listings', ExpenseListingController::class);
+
+    Route::prefix('expense-listings/{expenseList}')->group(function () {
+        Route::resource('expenses', ExpenseController::class)->shallow();
     });
 
-//    Route::prefix('expense-listings')->group(function () {
-//        Route::resource('/', ExpenseListingController::class);
-//
-//        Route::resource('{expenseListing}/expenses', ExpenseController::class)
-//            ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
-//            ->parameters(['expenses' => 'expense']);
-//    });
+    Route::resource('income-listings', IncomeListingController::class);
 
-    Route::prefix('income-listings')->group(function () {
-        Route::resource('income-listings', IncomeListingController::class);
-        Route::resource('incomes', incomeController::class);
-        Route::get('{incomeList}/incomes', [incomeController::class, 'index'])->name('income-listings.incomes.index');
+    Route::prefix('income-listings/{incomeList}')->group(function () {
+        Route::resource('incomes', IncomeListingController::class)->shallow();
     });
 
     Route::prefix('transactions')->name('transactions.')->group(function () {

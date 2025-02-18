@@ -48,7 +48,7 @@ class IncomeController extends Controller
             'date' => $request->date,
             'description' => $request->description,
         ]);
-dd("2");
+
         return redirect()->route('incomes.index')->with('success', 'Income created successfully.');
     }
 
