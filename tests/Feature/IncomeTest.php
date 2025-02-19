@@ -92,11 +92,11 @@ class IncomeTest extends TestCase
     public function expect_user_can_delete_their_own_income(): void
     {
 
-       $this->actingAs($this->user1);
+        $this->actingAs($this->user1);
 
-       $response = $this->delete(route('incomes.destroy', [$this->incomeListing, $this->income]));
-       $response->assertRedirect(route('incomes.index'));
+        $response = $this->delete(route('incomes.destroy', [$this->incomeListing, $this->income]));
+        $response->assertRedirect(route('income-listings.index'));
 
-       $this->assertDatabaseMissing('incomes', ['id' => $this->income->id]);
+        $this->assertDatabaseMissing('incomes', ['id' => $this->income->id]);
     }
 }

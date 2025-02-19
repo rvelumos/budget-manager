@@ -8,12 +8,12 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('expenses.index') }}" class="nav-link {{ request()->routeIs('expenses.index') ? 'active' : '' }}">
+            <a href="{{ route('expense-listings.index') }}" class="nav-link {{ request()->routeIs('expense-listings.index') ? 'active' : '' }}">
                 <i class="bi bi-cash"></i> {{ __('sidebar.expenses') }}
             </a>
         </li>
         <li>
-            <a href="{{ route('incomes.index') }}" class="nav-link {{ request()->routeIs('incomes.index') ? 'active' : '' }}">
+            <a href="{{ route('income-listings.index') }}" class="nav-link {{ request()->routeIs('income-listings.index') ? 'active' : '' }}">
                 <i class="bi bi-wallet2"></i> {{ __('sidebar.income') }}
             </a>
         </li>

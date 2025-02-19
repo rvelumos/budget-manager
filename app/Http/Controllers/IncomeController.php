@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Income;
+use App\Models\IncomeListing;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -88,7 +89,7 @@ class IncomeController extends Controller
         return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
     }
 
-    public function destroy(Income $income): JsonResponse|RedirectResponse
+    public function destroy(IncomeListing $incomeList, Income $income): JsonResponse|RedirectResponse
     {
         try {
             $this->authorize('delete', $income);
@@ -98,6 +99,7 @@ class IncomeController extends Controller
 
         $income->delete();
 
-        return redirect()->route('incomes.index')->with('success', 'Income deleted successfully.');
+        return redirect()->route('income-listings.index', [$incomeList, $income])
+            ->with('success', 'Income deleted successfully.');
     }
 }
