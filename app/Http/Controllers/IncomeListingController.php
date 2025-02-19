@@ -27,7 +27,7 @@ class IncomeListingController extends Controller
 
         $incomes = $incomeListing->incomes()->with('category')->get();
 
-        return view('income-listings.show', compact('incomeListing', '$incomes'));
+        return view('income-listings.show', compact('incomeListing', 'incomes'));
     }
 
     public function create(): View|Factory|Application

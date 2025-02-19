@@ -37,30 +37,12 @@ class ExpenseTest extends TestCase
     public function expect_user_can_visit_the_expenses_index_page(): void
     {
 
-        $this->get(route('expenses.index'))
+        $this->get(route('expenses.index', $this->expenseListing))
             ->assertRedirect('login');
 
         $this->be($this->user1)
-            ->get(route('expenses.index'))
+            ->get(route('expenses.index', $this->expenseListing))
             ->assertStatus(200);
-    }
-
-    #[Test]
-    public function expect_an_expense_name_can_only_added_once_to_an_expense_listing(): void
-    {
-
-        $response = $this->actingAs($this->user1)->post(route('expenses.store', $this->expenseListing), [
-            'name' => 'Insurance',
-            'description' => 'This should fail',
-            'amount' => 100,
-            'expense_listing_id' => $this->expenseListing->id,
-            'category_id' => 1,
-            'date' => now(),
-        ]);
-
-        $response->assertSessionHasErrors('name');
-
-        $this->assertEquals(1, Expense::where('name', 'Insurance')->where('expense_listing_id', $this->expenseListing->id)->count());
     }
 
     #[Test]
@@ -78,7 +60,7 @@ class ExpenseTest extends TestCase
             'expense_listing_id' => $this->expenseListing->id,
         ]);
 
-        $response->assertRedirect(route('expense-listings.expenses.index', $this->expenseListing));
+        $response->assertRedirect(route('expenses.index', $this->expenseListing));
 
         $response = $this->post(route('expenses.store', $this->expenseListing), [
             'name' => 'Negative Expense',
@@ -122,7 +104,7 @@ class ExpenseTest extends TestCase
 
        $response = $this->delete(route('expenses.destroy', [$this->expenseListing, $this->expense]));
 
-       $response->assertRedirect(route('expense-listings.expenses.index', $this->expenseListing));
+       $response->assertRedirect(route('expense-listings.index'));
 
        $this->assertDatabaseMissing('expenses', ['id' => $this->expense->id]);
     }

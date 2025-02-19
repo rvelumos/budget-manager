@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExpenseListing;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class ExpenseListingController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(ExpenseListing $expenseListing): View|Factory|Application
     {
         $expenses = $expenseListing->expenses;
@@ -74,9 +79,17 @@ class ExpenseListingController extends Controller
         return redirect()->route('expense-listings.index')->with('success', __('messages.expense_listing_updated'));
     }
 
-    public function destroy(ExpenseListing $ExpenseListing): RedirectResponse
+    public function destroy(ExpenseListing $expenseListing): JsonResponse|RedirectResponse
     {
-        $ExpenseListing->delete();
-        return redirect()->route('expense-listings.index')->with('success', 'Expense list deleted successfully.');
+        try {
+            $this->authorize('delete', $expenseListing);
+        } catch (AuthorizationException $e) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        $expenseListing->delete();
+
+        return redirect()->route('expense-listings.index')
+            ->with('success', 'Income deleted successfully.');
     }
 }
