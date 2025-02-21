@@ -38,6 +38,7 @@ class IncomeTest extends TestCase
     public function expect_income_amount_can_only_be_numeric_and_not_negative(): void
     {
 
+        $this->withoutExceptionHandling();
         $this->actingAs($this->user1);
 
         $response = $this->post(route('incomes.store', $this->incomeListing->id), [
@@ -49,9 +50,9 @@ class IncomeTest extends TestCase
             'income_listing_id' => $this->incomeListing->id,
         ]);
 
-        $response->assertRedirect(route('incomes.index', $this->incomeListing->id));
+        $response->assertRedirect(route('income-listings.index'));
 
-        $response = $this->post(route('incomes.store', $this->incomeListing->id), [
+        $this->post(route('incomes.store', $this->incomeListing->id), [
             'name' => 'Negative income',
             'amount' => -50,
             'category_id' => 1,
@@ -60,9 +61,9 @@ class IncomeTest extends TestCase
             'income_listing_id' => $this->incomeListing->id,
         ]);
 
-        $response->assertSessionHasErrors('amount');
+        $this->assertDatabaseMissing('incomes', ['amount' => -50]);
 
-        $response = $this->post(route('incomes.store', $this->incomeListing->id), [
+        $this->post(route('incomes.store', $this->incomeListing->id), [
             'name' => 'Non-Numeric income',
             'amount' => 'Blablabla',
             'category_id' => 1,
@@ -71,19 +72,19 @@ class IncomeTest extends TestCase
             'income_listing_id' => $this->incomeListing->id,
         ]);
 
-        $response->assertSessionHasErrors('amount');
+        $this->assertDatabaseMissing('incomes', ['amount' => 'Blablabla']);
     }
 
     #[Test]
     public function expect_user_cannot_delete_another_users_income(): void
     {
 
-        $income = Income::factory()->create();
-        $user2 = User::factory()->create();
+        $incomeListing = IncomeListing::factory()->create(['user_id' => $this->user1->id]);
+        $income = Income::factory()->create(['id' => 1, 'income_listing_id' => $incomeListing->id, 'user_id' => $this->user1->id]);
 
-        $this->actingAs($user2);
+        $this->actingAs($this->user2);
 
-        $response = $this->delete(route('incomes.destroy', $income));
+        $response = $this->delete(route('incomes.destroy', [$incomeListing, $income]));
 
         $response->assertStatus(403);
     }

@@ -17,10 +17,11 @@ class ExpenseListingController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(ExpenseListing $expenseListing): View|Factory|Application
+    public function index(): View|Factory|Application
     {
-        $expenses = $expenseListing->expenses;
-        return view('expenses.index', compact('expenseListing', 'expenses'));
+        $listings = ExpenseListing::where('user_id', auth()->id())->with('expenses')->get();
+
+        return view('expense-listings.index', compact('listings'));
     }
 
     public function show(ExpenseListing $expenseListing): View

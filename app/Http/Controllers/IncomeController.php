@@ -35,6 +35,7 @@ class IncomeController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
             'amount' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
@@ -91,6 +92,7 @@ class IncomeController extends Controller
 
     public function destroy(IncomeListing $incomeList, Income $income): JsonResponse|RedirectResponse
     {
+
         try {
             $this->authorize('delete', $income);
         } catch (AuthorizationException $e) {

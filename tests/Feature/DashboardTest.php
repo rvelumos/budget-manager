@@ -27,7 +27,7 @@ class DashboardTest extends TestCase
     #[Test]
     public function expect_a_guest_cannot_access_dashboard(): void
     {
-        $response = $this->get(route('dashboard'));
+        $response = $this->get(route('dashboard.index'));
 
         $response->assertRedirect(route('login'));
     }
@@ -35,7 +35,7 @@ class DashboardTest extends TestCase
     #[Test]
     public function expect_an_authenticated_user_can_view_dashboard(): void
     {
-        $response = $this->actingAs($this->user)->get(route('dashboard'));
+        $response = $this->actingAs($this->user)->get(route('dashboard.index'));
 
         $response->assertStatus(200);
         $response->assertSee(__('dashboard.title'));
@@ -57,12 +57,12 @@ class DashboardTest extends TestCase
             'date' => now(),
         ]);
 
-        $response = $this->actingAs($this->user)->get(route('dashboard'));
+        $response = $this->actingAs($this->user)->get(route('dashboard.index'));
 
         $response->assertStatus(200);
-        $response->assertSee('€ 5000,00');
-        $response->assertSee('€ 2000,00');
-        $response->assertSee('€ 3000,00');
+        $response->assertSee('€ 5,000.00');
+        $response->assertSee('€ 2,000.00');
+        $response->assertSee('€ 3,000.00');
     }
 
     #[Test]
@@ -77,10 +77,10 @@ class DashboardTest extends TestCase
             'category_id' => $category->id,
         ]);
 
-        $response = $this->actingAs($this->user)->get(route('dashboard'));
+        $response = $this->actingAs($this->user)->get(route('dashboard.index'));
 
         $response->assertStatus(200);
         $response->assertSee('Food');
-        $response->assertSee('€ 150,00');
+        $response->assertSee('€ 150.00');
     }
 }

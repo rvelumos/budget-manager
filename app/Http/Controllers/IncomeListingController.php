@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\IncomeListing;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class IncomeListingController extends Controller
 {
+    use AuthorizesRequests;
     public function index(): View|Factory|Application
     {
-        $incomeListings = IncomeListing::where('user_id', auth()->id())->get();
-        return view('income-listings.index', compact('incomeListings'));
+        $listings = IncomeListing::where('user_id', auth()->id())->with('incomes')->get();
+
+        return view('income-listings.index', compact('listings'));
     }
 
     public function show(IncomeListing $incomeListing): View
@@ -72,9 +77,14 @@ class IncomeListingController extends Controller
         return redirect()->route('incomelistings.index')->with('success', __('messages.income_listing_updated'));
     }
 
-    public function destroy(IncomeListing $IncomeListing): RedirectResponse
+    public function destroy(IncomeListing $IncomeListing): RedirectResponse|JsonResponse
     {
-        $IncomeListing->delete();
+        try {
+            $this->authorize('delete', $IncomeListing);
+        } catch (AuthorizationException $e) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
         return redirect()->route('income-listings.index')->with('success', 'Income list deleted successfully.');
     }
 }
