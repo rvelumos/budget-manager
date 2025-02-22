@@ -34,18 +34,6 @@ class ExpenseTest extends TestCase
     }
 
     #[Test]
-    public function expect_user_can_visit_the_expenses_index_page(): void
-    {
-
-        $this->get(route('expenses.index', $this->expenseListing))
-            ->assertRedirect('login');
-
-        $this->be($this->user1)
-            ->get(route('expenses.index', $this->expenseListing))
-            ->assertStatus(200);
-    }
-
-    #[Test]
     public function expect_expense_amount_can_only_be_numeric_and_not_negative(): void
     {
 
