@@ -78,4 +78,17 @@ return [
     'success_message' => 'Transacties succesvol geïmporteerd!',
     'error_message' => 'Er is een fout opgetreden bij het verwerken van het bestand.',
     'file_required' => 'Upload een CSV-bestand.',
+
+    'income_created' => 'Income created successfully.',
+    'income_updated' => 'Income updated successfully.',
+    'income_deleted' => 'Income deleted successfully.',
+    'income_listing_created' => 'Income listing created successfully.',
+    'income_listing_deleted' => 'Income listing deleted successfully.',
+    'limit_reached_income' => 'You cannot create more than 5 income listings.',
+    'expense_deleted' => 'Expense deleted successfully.',
+    'expense_created' => 'Expense created successfully.',
+    'expense_listing_created' => 'Expense listing created successfully.',
+    'expense_listing_deleted' => 'Expense listing deleted successfully.',
+    'expense_updated' => 'Expense updated successfully.',
+    'limit_reached_expense' => 'You cannot create more than 10 expense listings.',
 ];

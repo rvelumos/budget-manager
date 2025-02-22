@@ -64,7 +64,7 @@ class ExpenseListingTest extends TestCase
             'name' => 'Extra Expense Listing',
         ]);
 
-        $response->assertSessionHasErrors(['limit' => __('You cannot create more than 10 expense listings.')]);
+        $response->assertSessionHasErrors(['limit' => __('messages.limit_reached_expense')]);
 
         $this->assertCount(
             10,

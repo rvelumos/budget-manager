@@ -51,7 +51,7 @@ class IncomeController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect()->route('incomes.index')->with('success', 'Income created successfully.');
+        return redirect()->route('incomes.index')->with('success', __('messages.income_created'));
     }
 
     public function edit(Income $income): View|Factory|Application
@@ -87,7 +87,7 @@ class IncomeController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect()->route('incomes.index')->with('success', 'Income updated successfully.');
+        return redirect()->route('incomes.index')->with('success', __('messages.income_updated'));
     }
 
     public function destroy(IncomeListing $incomeList, Income $income): JsonResponse|RedirectResponse
@@ -102,6 +102,6 @@ class IncomeController extends Controller
         $income->delete();
 
         return redirect()->route('income-listings.index', [$incomeList, $income])
-            ->with('success', 'Income deleted successfully.');
+            ->with('success', __('messages.income_deleted'));
     }
 }

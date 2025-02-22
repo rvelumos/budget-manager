@@ -48,7 +48,7 @@ class IncomeListingController extends Controller
 
         if ($userIncomeCount >= 5) {
             return redirect()->back()->withErrors([
-                'limit' => __('You cannot create more than 5 income listings.'),
+                'limit' => __('messages.limit_reached_income'),
             ]);
         }
 
@@ -57,7 +57,7 @@ class IncomeListingController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('income-listings.index')->with('success', 'Income list created successfully.');
+        return redirect()->route('income-listings.index')->with('success', __('messages.income_listing_created'));
     }
 
     public function edit(IncomeListing $incomeListing): View|Factory|Application
@@ -85,6 +85,6 @@ class IncomeListingController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        return redirect()->route('income-listings.index')->with('success', 'Income list deleted successfully.');
+        return redirect()->route('income-listings.index')->with('success', __('messages.income_listing_deleted'));
     }
 }

@@ -47,7 +47,7 @@ class ExpenseListingController extends Controller
 
         if ($userExpenseCount >= 10) {
             return redirect()->back()->withErrors([
-                'limit' => __('You cannot create more than 10 expense listings.'),
+                'limit' => __('messages.limit_reached_expense'),
             ]);
         }
 
@@ -60,7 +60,7 @@ class ExpenseListingController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('expense-listings.index')->with('success', __('Expense listing created successfully.'));
+        return redirect()->route('expense-listings.index')->with('success', __('messages.expense_listing_created'));
     }
 
     public function edit(ExpenseListing $expenseListing): View|Factory|Application
@@ -91,6 +91,6 @@ class ExpenseListingController extends Controller
         $expenseListing->delete();
 
         return redirect()->route('expense-listings.index')
-            ->with('success', 'Income deleted successfully.');
+            ->with('success', __('messages.expense_listing_deleted'));
     }
 }
