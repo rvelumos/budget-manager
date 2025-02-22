@@ -8,7 +8,6 @@ use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
-
     public function run(): void
     {
         Category::factory()->count(3)->create(['type' => 'income']);

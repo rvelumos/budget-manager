@@ -6,6 +6,5 @@ class UserController
 {
     public function settings(): void
     {
-
     }
 }

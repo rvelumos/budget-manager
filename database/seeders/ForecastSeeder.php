@@ -8,7 +8,6 @@ use App\Models\Forecast;
 
 class ForecastSeeder extends Seeder
 {
-
     public function run(): void
     {
         Forecast::factory()->count(10)->create();

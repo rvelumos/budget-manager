@@ -32,7 +32,6 @@ class UserTest extends TestCase
         $this->be($this->user)
             ->get("/account/settings")
             ->assertStatus(200);
-
     }
 
     #[Test]

@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-
 use App\Models\IncomeListing;
 use App\Models\Category;
 use App\Models\Income;
@@ -13,7 +12,6 @@ use App\Models\User;
 
 class IncomeTest extends TestCase
 {
-
     use FastRefreshDatabase;
 
     protected function setUp(): void

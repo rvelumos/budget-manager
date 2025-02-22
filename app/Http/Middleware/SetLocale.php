@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -11,12 +12,10 @@ class SetLocale
         $locale = session('locale', 'en');
 
         if (in_array($locale, ['en', 'nl'])) {
-
             App::setLocale($locale);
             setlocale(LC_ALL, $locale . '_' . strtoupper($locale));
         }
 
         return $next($request);
-
     }
 }

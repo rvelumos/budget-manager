@@ -1,15 +1,14 @@
 <?php
 
 namespace Database\Factories;
+
 use App\Models\User;
 use App\Models\ExpenseListing;
 use App\Models\Category;
-
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExpenseFactory extends Factory
 {
-
     public function definition(): array
     {
         return [

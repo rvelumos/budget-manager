@@ -14,7 +14,7 @@ class TransactionsImport implements ToModel
             'date'       => $row[0],
             'amount'     => $row[1],
             'category'   => $row[2],
-            'description'=> $row[3],
+            'description' => $row[3],
         ]);
     }
 }

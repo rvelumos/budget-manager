@@ -11,7 +11,6 @@ use Illuminate\Routing\Controller;
 
 class AdminController extends Controller
 {
-
     public function manageUsers(): View|Factory|Application
     {
         $users = User::paginate(10);

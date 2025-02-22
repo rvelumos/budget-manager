@@ -16,6 +16,7 @@ use Illuminate\Routing\Controller;
 class IncomeListingController extends Controller
 {
     use AuthorizesRequests;
+
     public function index(): View|Factory|Application
     {
         $listings = IncomeListing::where('user_id', auth()->id())->with('incomes')->get();

@@ -8,7 +8,6 @@ use App\Models\ExpenseListing;
 
 class ExpenseListingSeeder extends Seeder
 {
-
     public function run(): void
     {
         ExpenseListing::factory()->count(2)->create();

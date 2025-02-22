@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class BudgetController extends Controller
 {
-
     public function index(): View|Factory|Application
     {
         $budgets = Budget::where('user_id', Auth::id())->with('category')->get();

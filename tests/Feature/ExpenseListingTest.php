@@ -9,7 +9,6 @@ use App\Models\ExpenseListing;
 use App\Models\Expense;
 use App\Models\User;
 
-
 class ExpenseListingTest extends TestCase
 {
     use FastRefreshDatabase;
@@ -33,7 +32,6 @@ class ExpenseListingTest extends TestCase
         $this->be($this->user1)
             ->get(route('expense-listings.index'))
             ->assertStatus(200);
-
     }
 
     #[Test]

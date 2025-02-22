@@ -21,7 +21,7 @@ class TransactionImportController
     {
         $request->validate(['file' => 'required|mimes:xlsx,csv,txt|max:2048']);
 
-        Excel::import(new TransactionsImport, $request->file('file'));
+        Excel::import(new TransactionsImport(), $request->file('file'));
 
         return redirect()->back()->with('success', __('messages.transactions_imported'));
     }

@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Auth;
 
 class IncomeController extends Controller
 {
-
     use AuthorizesRequests;
 
     public function index(): View|Factory|Application
@@ -59,7 +58,6 @@ class IncomeController extends Controller
         try {
             $this->authorize('update', $income);
         } catch (AuthorizationException $e) {
-
         }
         $categories = Category::where('type', 'income')->get();
         return view('income.edit', compact('income', 'categories'));
@@ -70,7 +68,6 @@ class IncomeController extends Controller
         try {
             $this->authorize('update', $income);
         } catch (AuthorizationException $e) {
-
         }
 
         $request->validate([

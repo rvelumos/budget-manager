@@ -6,14 +6,12 @@ use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\User;
-
 use PHPUnit\Framework\Attributes\Test;
 use Plannr\Laravel\FastRefreshDatabase\Traits\FastRefreshDatabase;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
-
     use FastRefreshDatabase;
 
     protected User $user;

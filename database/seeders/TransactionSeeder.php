@@ -8,7 +8,6 @@ use App\Models\Transaction;
 
 class TransactionSeeder extends Seeder
 {
-
     public function run(): void
     {
         Transaction::factory()->count(150)->create();

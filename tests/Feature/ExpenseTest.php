@@ -12,7 +12,6 @@ use App\Models\ExpenseListing;
 
 class ExpenseTest extends TestCase
 {
-
     use FastRefreshDatabase;
 
     protected function setUp(): void
@@ -75,25 +74,25 @@ class ExpenseTest extends TestCase
     public function expect_user_cannot_delete_another_users_expense(): void
     {
 
-       $this->actingAs($this->user2);
+        $this->actingAs($this->user2);
 
-       $response = $this->delete(route('expenses.destroy', [$this->expenseListing, $this->expense]));
+        $response = $this->delete(route('expenses.destroy', [$this->expenseListing, $this->expense]));
 
-       $response->assertStatus(403);
+        $response->assertStatus(403);
 
-       $this->assertDatabaseHas('expenses', ['id' => $this->expense->id]);
+        $this->assertDatabaseHas('expenses', ['id' => $this->expense->id]);
     }
 
     #[Test]
     public function expect_user_can_delete_their_own_expense(): void
     {
 
-       $this->actingAs($this->user1);
+        $this->actingAs($this->user1);
 
-       $response = $this->delete(route('expenses.destroy', [$this->expenseListing, $this->expense]));
+        $response = $this->delete(route('expenses.destroy', [$this->expenseListing, $this->expense]));
 
-       $response->assertRedirect(route('expense-listings.index'));
+        $response->assertRedirect(route('expense-listings.index'));
 
-       $this->assertDatabaseMissing('expenses', ['id' => $this->expense->id]);
+        $this->assertDatabaseMissing('expenses', ['id' => $this->expense->id]);
     }
 }

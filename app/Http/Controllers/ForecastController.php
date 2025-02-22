@@ -64,5 +64,4 @@ class ForecastController extends Controller
             ->header('Content-Type', 'text/csv')
             ->header('Content-Disposition', 'attachment; filename="forecasts.csv"');
     }
-
 }

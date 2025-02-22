@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ForecastFactory extends Factory
 {
-
     protected $model = Forecast::class;
 
     public function definition()

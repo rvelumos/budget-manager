@@ -8,7 +8,6 @@ use App\Models\Income;
 
 class IncomeSeeder extends Seeder
 {
-
     public function run(): void
     {
         Income::factory()->count(50)->create();

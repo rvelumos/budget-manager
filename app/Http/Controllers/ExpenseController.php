@@ -13,20 +13,19 @@ use Illuminate\Http\Request;
 use App\Traits\HasCurrentMonthData;
 use Illuminate\Routing\Controller;
 
-
 class ExpenseController extends Controller
 {
     use HasCurrentMonthData;
 
-     public function index(ExpenseListing $expenseList): View|Factory|Application
-     {
+    public function index(ExpenseListing $expenseList): View|Factory|Application
+    {
         $expenses = $expenseList->expenses()->with('category')->get();
 
         return view('expenses.index', compact('expenseList', 'expenses'));
     }
 
-     public function create(ExpenseListing $expenseList): View|Factory|Application
-     {
+    public function create(ExpenseListing $expenseList): View|Factory|Application
+    {
         return view('expenses.create', compact('expenseList'));
     }
 

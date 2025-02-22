@@ -9,7 +9,6 @@ use App\Models\IncomeListing;
 use App\Models\Income;
 use App\Models\User;
 
-
 class IncomeListingTest extends TestCase
 {
     use FastRefreshDatabase;
@@ -33,7 +32,6 @@ class IncomeListingTest extends TestCase
         $this->be($this->user1)
             ->get(route('income-listings.index'))
             ->assertStatus(200);
-
     }
 
     #[Test]

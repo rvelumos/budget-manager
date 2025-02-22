@@ -10,7 +10,6 @@ use App\Models\Category;
 
 class CategoryTest extends TestCase
 {
-
     use FastRefreshDatabase;
 
     protected function setUp(): void
@@ -28,7 +27,6 @@ class CategoryTest extends TestCase
         $this->be($this->user)
             ->get("/admin/categories")
             ->assertStatus(403);
-
     }
 
     #[Test]
@@ -43,12 +41,11 @@ class CategoryTest extends TestCase
         ]);
 
         $this->assertEquals(1, Category::where('name', 'Groceries')->count());
-
     }
 
     #[Test]
     public function expect_an_admin_can_create_a_category(): void
-        {
+    {
 
             $data = [
                 'name' => 'Category',
@@ -63,5 +60,5 @@ class CategoryTest extends TestCase
                 'name' => 'Category',
                 'description' => 'Category description',
             ]);
-        }
+    }
 }
