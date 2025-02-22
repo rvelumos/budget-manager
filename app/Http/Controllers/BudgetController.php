@@ -46,7 +46,7 @@ class BudgetController extends Controller
             'end_date' => $request->end_date,
         ]);
 
-        return redirect()->route('budgets.index')->with('success', 'Budget created successfully.');
+        return redirect()->route('budgets.index')->with('success', __('messages.budget_created'));
     }
 
     public function show(Budget $budget): View|Factory|Application
@@ -80,13 +80,13 @@ class BudgetController extends Controller
             'end_date' => $request->end_date,
         ]);
 
-        return redirect()->route('budgets.index')->with('success', 'Budget updated successfully.');
+        return redirect()->route('budgets.index')->with('success', __('messages.budget_updated'));
     }
 
     public function destroy(Budget $budget): RedirectResponse
     {
         $budget->delete();
 
-        return redirect()->route('budgets.index')->with('success', 'Budget deleted successfully.');
+        return redirect()->route('budgets.index')->with('success', __('messages.budget_deleted'));
     }
 }

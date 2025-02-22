@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'auth_failed' => 'Gegevens komen niet voor in ons systeem.',
     'dashboard' => 'Dashboard',
     'expenses' => 'Uitgaven',
     'income' => 'Inkomen',
@@ -19,6 +20,10 @@ return [
     'update_listing' => 'Lijst Bijwerken',
     'income_listing_details' => 'Inkomstenlijst Details',
     'total_income' => 'Totaal Inkomsten',
+
+    'budget_created' => 'Budget aangemaakt.',
+    'budget_updated' => 'Budget geupdatet.',
+    'budget_deleted' => 'Budget verwijderd.',
 
     'add_expense' => 'Uitgave Toevoegen',
     'category' => 'Categorie',

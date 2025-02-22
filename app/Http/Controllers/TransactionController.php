@@ -73,7 +73,7 @@ class TransactionController extends Controller
             ]);
         }
 
-        return redirect()->route('transactions.index')->with('success', 'Transaction added successfully.');
+        return redirect()->route('transactions.index')->with('success', __('messages.transaction_created'));
     }
 
     public function edit($id, $type): View|Factory|Application
@@ -130,7 +130,7 @@ class TransactionController extends Controller
             ]);
         }
 
-        return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
+        return redirect()->route('transactions.index')->with('success', __('messages.transaction_updated'));
     }
 
     public function destroy($id, Request $request): RedirectResponse
@@ -144,11 +144,11 @@ class TransactionController extends Controller
         }
 
         if ($transaction->user_id !== auth()->id()) {
-            abort(403, 'You are not authorized to delete this transaction.');
+            abort(403, __('messages.forbidden'));
         }
 
         $transaction->delete();
 
-        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
+        return redirect()->route('transactions.index')->with('success', __('messages.transaction_deleted'));
     }
 }

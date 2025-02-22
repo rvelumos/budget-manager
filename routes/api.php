@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IncomeController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/expenses/current-month', [ExpenseController::class, 'currentMonth']);

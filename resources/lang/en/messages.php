@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'auth_failed' => 'These credentials do not match our records.',
+    'password_regex' => 'Password must be at least 8 characters and contain at least one uppercase, one lowercase, and one number.',
+    'forbidden' => 'You are not authorized to delete this transaction',
     'dashboard' => 'Dashboard',
     'expenses' => 'Expenses',
     'income' => 'Income',
@@ -19,9 +22,17 @@ return [
     'update_listing' => 'Update Listing',
     'income_listing_details' => 'Income Listing Details',
     'total_income' => 'Total Income',
-
     'add_expense' => 'Add Expense',
+
+    'budget_created' => 'Budget created successfully.',
+    'budget_updated' => 'Budget updated successfully.',
+    'budget_deleted' => 'Budget deleted successfully.',
+
     'category' => 'Category',
+    'category_created' => 'Category created successfully.',
+    'category_updated' => 'Category updated successfully.',
+    'category_deleted' => 'Category deleted successfully.',
+
     'amount' => 'Amount',
     'date' => 'Date',
     'actions' => 'Actions',
@@ -43,6 +54,9 @@ return [
     'create_transaction' => 'Create Transaction',
     'edit_transaction' => 'Edit Transaction',
     'show_transaction' => 'View Transaction',
+    'transaction_created' => 'Transaction created successfully.',
+    'transaction_updated' => 'Transaction updated successfully.',
+    'transaction_deleted' => 'Transaction deleted successfully.',
     'save' => 'Save',
     'cancel' => 'Cancel',
     'back_to_list' => 'Back to List',

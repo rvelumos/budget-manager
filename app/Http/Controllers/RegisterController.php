@@ -18,49 +18,49 @@ class RegisterController extends Controller
 {
     public function showRegistrationForm(): View|Factory|Application
     {
-            return view('auth.register');
+        return view('auth.register');
+    }
+
+    public function register(Request $request): RedirectResponse
+    {
+        try {
+            $this->validator($request->all())->validate();
+        } catch (ValidationException $e) {
+
         }
 
-        public function register(Request $request): RedirectResponse
-        {
-            try {
-                $this->validator($request->all())->validate();
-            } catch (ValidationException $e) {
+        $user = $this->create($request->all());
 
-            }
+        auth()->login($user);
 
-            $user = $this->create($request->all());
+        return redirect()->route('/dashboard');
+    }
 
-            auth()->login($user);
-
-            return redirect()->route('/dashboard');
-        }
-
-        protected function validator(array $data): \Illuminate\Validation\Validator
-        {
-            return Validator::make($data, [
-                    'name' => ['required', 'string', 'max:255'],
-                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                    'password' => [
-                        'required',
-                        'string',
-                        'min:8',
-                        'regex:/[A-Z]/',
-                        'regex:/[0-9]/',
-                        'regex:/[@$!%*#?&]/',
-                        'confirmed'
-                    ],
-                ], [
-                    'password.regex' => 'The password must contain at least one uppercase letter, one digit, and one special character.',
-                ]);
-        }
-
-        protected function create(array $data)
-        {
-            return User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
+    protected function validator(array $data): \Illuminate\Validation\Validator
+    {
+        return Validator::make($data, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'regex:/[A-Z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[@$!%*#?&]/',
+                    'confirmed'
+                ],
+            ], [
+                'password.regex' => __('messages.password_regex'),
             ]);
-        }
+    }
+
+    protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
 }
