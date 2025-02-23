@@ -2,6 +2,7 @@
 
 return [
     'title' => 'Welkom bij BudgetManager',
+    'title_short' => 'BudgetManager',
     'subtitle' => 'Beheer je financiën eenvoudig en overzichtelijk.',
     'cta_register' => 'Start Nu',
     'cta_login_text' => 'Heb je al een account?',

@@ -2,6 +2,7 @@
 
 return [
     'title' => 'Welcome to BudgetManager',
+    'title_short' => 'BudgetManager',
     'subtitle' => 'Easily manage your finances and stay organized.',
     'cta_register' => 'Get Started Now',
     'cta_login_text' => 'Already have an account?',

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="dashboard-container">
+    <div class="container">
         <header>
             <h1>{{ __('dashboard.title') }}</h1>
             <p>{{ __('dashboard.subtitle') }}</p>

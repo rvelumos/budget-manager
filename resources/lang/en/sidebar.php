@@ -3,7 +3,8 @@
 return [
     'dashboard' => 'Dashboard',
     'expenses' => 'Expenses',
-    'income' => 'Income',
+    'incomes' => 'Incomes',
+    'budgets' => 'Budgets',
     'import' => 'Transaction Imports',
     'forecast' => 'Forecast',
     'settings' => 'Account Settings',

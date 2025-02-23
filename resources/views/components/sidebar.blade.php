@@ -1,9 +1,9 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar" style="height: 100vh;">
-    <h2 class="text-center">{{ __('sidebar.dashboard') }}</h2>
+    <h2 class="text-center">{{ __('home.title_short') }}</h2>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+            <a href="{{ route('dashboard.index') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
                 <i class="bi bi-house-door"></i> {{ __('sidebar.dashboard') }}
             </a>
         </li>
@@ -14,7 +14,7 @@
         </li>
         <li>
             <a href="{{ route('income-listings.index') }}" class="nav-link {{ request()->routeIs('income-listings.index') ? 'active' : '' }}">
-                <i class="bi bi-wallet2"></i> {{ __('sidebar.income') }}
+                <i class="bi bi-wallet2"></i> {{ __('sidebar.incomes') }}
             </a>
         </li>
         <li>
