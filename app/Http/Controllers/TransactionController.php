@@ -87,7 +87,7 @@ class TransactionController extends Controller
         return view('transactions.edit', compact('transaction', 'type'));
     }
 
-    public function update(Request $request, $id, $type = 'regular'): RedirectResponse
+    public function update(Request $request, int $id, string $type = 'regular'): RedirectResponse
     {
 
         if ($type == 'recurring') {
@@ -133,7 +133,7 @@ class TransactionController extends Controller
         return redirect()->route('transactions.index')->with('success', __('messages.transaction_updated'));
     }
 
-    public function destroy($id, Request $request): RedirectResponse
+    public function destroy(int $id, Request $request): RedirectResponse
     {
         $type = $request->input('type', 'regular');
 
