@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif !important;
+    font-family: 'Poppins', sans-serif !important;
     background-color: #f8f9fa;
     color: #333;
     margin: 0;
@@ -10,6 +10,7 @@ body {
 
 h1 {
     text-transform: uppercase;
+    font-weight: 200;
     color: #4a5568;
 }
 
@@ -26,7 +27,7 @@ nav {
 }
 
 button {
-    background: linear-gradient(135deg, #222, #444);
+    background: linear-gradient(135deg, #272E34, #222);
     border: none;
     color: white;
     margin: 10px 0;
@@ -151,10 +152,9 @@ footer a:hover {
 .sidebar {
     width: 260px;
     height: 100vh;
-    background: linear-gradient(135deg, #222222, #333333);
+    background: linear-gradient(135deg, #272E34, #222);
     /*background: linear-gradient(135deg, #1e3a8a, #2563eb);*/
     color: white;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
@@ -185,13 +185,26 @@ footer a:hover {
 }
 
 .sidebar .nav-link {
-    display: flex;
+    display: block;
     text-decoration: none;
     align-items: center;
     padding: 20px;
+    font-weight: 200;
     color: white;
     font-size: 16px;
     transition: all 0.3s ease-in-out;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.arrow {
+    color: #888;
+    font-size: 16px;
 }
 
 .sidebar .nav-link i {
@@ -201,12 +214,13 @@ footer a:hover {
 
 .sidebar .nav-link:hover {
     background: rgba(255, 255, 255, 0.2);
+    font-weight: 300;
     text-decoration: none;
 }
 
 .sidebar .nav-link.active {
-    background: rgba(255, 255, 255, 0.1);
-    font-weight: bold;
+    background: #cc7066;
+    font-weight: 300;
 }
 
 .sidebar .mt-auto {
@@ -224,6 +238,18 @@ footer a:hover {
 
 .sidebar .btn-danger:hover {
     background: #b52a37;
+}
+
+.sidebar .logout-btn {
+    border: 1px solid #666;
+    background: #333;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    margin: auto auto 20px;
+    font-size: 16px;
+    transition: 0.3s;
+    width: 50%;
 }
 
 .main-content {
