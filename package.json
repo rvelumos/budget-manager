@@ -6,13 +6,20 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@eslint/js": "^9.21.0",
         "axios": "^1.6.4",
+        "eslint": "^9.21.0",
+        "eslint-config-prettier": "^10.0.1",
+        "eslint-plugin-prettier": "^5.2.3",
+        "eslint-plugin-vue": "^9.32.0",
         "laravel-mix": "^6.0.49",
         "laravel-vite-plugin": "^1.0",
+        "prettier": "^3.5.2",
         "vite": "^5.0"
     },
     "dependencies": {
         "chart.js": "^4.4.8",
+        "eslint-define-config": "^2.1.0",
         "vue": "^3.4.38"
     }
 }
