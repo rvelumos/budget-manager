@@ -3,11 +3,11 @@
 @section('content')
 
 <div class="content-wrapper">
+    <h1 class="text-2xl font-bold mb-6">Budgets</h1>
     <div class="container-btn-group">
         <a href="{{ route('budgets.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded mb-4 inline-block">Create New Budget</a>
     </div>
     <div class="container mx-auto">
-        <h1 class="text-2xl font-bold mb-6">Budgets</h1>
 
         @if ($budgets->isEmpty())
             <p>No budgets found.</p>

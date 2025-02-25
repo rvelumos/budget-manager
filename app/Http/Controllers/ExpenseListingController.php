@@ -38,7 +38,7 @@ class ExpenseListingController extends Controller
 
     public function create(ExpenseListing $expenseListing): Application|Factory|View
     {
-        return view('expenses.create', compact('expenseListing'));
+        return view('expense-listings.create', compact('expenseListing'));
     }
 
     public function store(Request $request): RedirectResponse

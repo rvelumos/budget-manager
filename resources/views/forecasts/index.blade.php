@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+    <h1 class="text-2xl font-bold mb-4">{{ __('forecasts.index_title') }}</h1>
     <div class="container">
-        <h1 class="text-2xl font-bold mb-4">{{ __('forecasts.index_title') }}</h1>
 
         <div class="mb-6">
             <h2 class="text-xl font-semibold">{{ __('forecasts.summary_title') }}</h2>

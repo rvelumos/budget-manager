@@ -63,7 +63,7 @@ class IncomeListingController extends Controller
 
     public function edit(IncomeListing $incomeListing): View|Factory|Application
     {
-        return view('incomelistings.edit', compact('incomeListing'));
+        return view('income-listings.edit', compact('incomeListing'));
     }
 
     public function update(Request $request, IncomeListing $incomeListing): RedirectResponse
@@ -75,7 +75,7 @@ class IncomeListingController extends Controller
 
         $incomeListing->update($request->only(['name', 'description']));
 
-        return redirect()->route('incomelistings.index')->with('success', __('messages.income_listing_updated'));
+        return redirect()->route('income-listings.index')->with('success', __('messages.income_listing_updated'));
     }
 
     public function destroy(IncomeListing $IncomeListing): RedirectResponse|JsonResponse
