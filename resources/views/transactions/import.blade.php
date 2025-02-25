@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="content-wrapper">
+        <h1>{{ __('messages.import_transactions') }}</h1>
         <div class="container">
-            <h2>{{ __('messages.import_transactions') }}</h2>
 
             @if(session('success'))
                 <div class="alert alert-success">

@@ -2,9 +2,10 @@
 
 @section('content')
     <x-listing-form
-        :route="route('incomelistings.update', $incomeListing->id)"
+        :route="route('income-listings.update', $incomeListing->id)"
         type="income"
         :listing="$incomeListing"
-        :buttonText="__('messages.update_income_listing')"
+        :title="__('messages.edit_income_listing')"
+        :buttonText="__('messages.update')"
     />
 @endsection

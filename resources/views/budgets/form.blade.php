@@ -5,7 +5,7 @@
     @endisset
 
     <div class="mb-4">
-        <label for="amount" class="block text-gray-700 font-bold">Budget Amount</label>
+        <label for="amount" class="block text-gray-700 font-bold">{{ __('messages.amount') }}</label>
         <input
             type="number"
             id="amount"
@@ -20,7 +20,7 @@
     </div>
 
     <div class="mb-4 flex items-center justify-between">
-        <label for="category_id" class="text-gray-700 font-bold">Category</label>
+        <label for="category_id" class="text-gray-700 font-bold">{{ __('messages.category') }}</label>
         <select
             id="category_id"
             name="category_id"
@@ -42,7 +42,7 @@
     @enderror
 
     <div class="mb-4 flex items-center justify-between">
-        <label for="period" class="text-gray-700 font-bold">Period</label>
+        <label for="period" class="text-gray-700 font-bold">{{ __('messages.period') }}</label>
         <select
             id="period"
             name="period"
@@ -53,12 +53,13 @@
             <option value="yearly" @selected(old('period', $budget->period ?? '') == 'yearly')>Yearly</option>
         </select>
     </div>
+
     @error('period')
-    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
     @enderror
 
     <div class="mb-4 flex items-center justify-between">
-        <label for="start_date" class="text-gray-700 font-bold">Start Date</label>
+        <label for="start_date" class="text-gray-700 font-bold">{{ __('messages.start_date') }}</label>
         <input
             type="date"
             id="start_date"
@@ -68,12 +69,13 @@
             required
         >
     </div>
+
     @error('start_date')
-    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
     @enderror
 
     <div class="mb-4 flex items-center justify-between">
-        <label for="end_date" class="text-gray-700 font-bold">End Date</label>
+        <label for="end_date" class="text-gray-700 font-bold">{{ __('messages.end_date') }}</label>
         <input
             type="date"
             id="end_date"
@@ -82,10 +84,10 @@
             value="{{ old('end_date', $budget->end_date ?? '') }}"
         >
     </div>
-    @error('end_date')
-    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-    @enderror
 
+    @error('end_date')
+        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+    @enderror
 
     <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">
         {{ $buttonText }}

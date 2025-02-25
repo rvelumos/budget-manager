@@ -6,11 +6,11 @@
         <h1 class="text-2xl font-bold mb-6">{{ __('messages.income_listings') }}</h1>
 
         <div class="container-btn-group">
-            <a href="{{ route('income-listings.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded mb-4 inline-block">{{ __('messages.add_list') }}</a>
+            <a href="{{ route('income-listings.create') }}" class="bg-blue-500 text-white py-2 px-4 rounded mb-4 inline-block">{{ __('messages.add_listing') }}</a>
         </div>
 
         @if ($listings->isEmpty())
-            <p>No listings found.</p>
+            <p>{{ __('messages.no_listings') }}</p>
         @else
 
             @foreach ($listings as $listing)

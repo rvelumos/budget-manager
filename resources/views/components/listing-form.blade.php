@@ -1,24 +1,27 @@
-<div class="container">
-    <form action="{{ $route }}" method="POST">
-        @csrf
-        @if($listing)
-            @method('PUT')
-        @endif
+<div class="content-wrapper">
+    <h1 class="text-2xl font-bold mb-4"></h1>
+    <div class="container">
+        <form action="{{ $route }}" method="POST">
+            @csrf
+            @if($listing)
+                @method('PUT')
+            @endif
 
-        @if ($errors->has('limit'))
-            <div class="alert alert-danger">
-                {{ $errors->first('limit') }}
+            @if ($errors->has('limit'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('limit') }}
+                </div>
+            @endif
+
+            <div class="mb-3">
+                <label for="name" class="form-label">{{ __('messages.listing_name') }}</label>
+                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $listing->name ?? old('name') }}" required>
+                @error('name')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-        @endif
 
-        <div class="mb-3">
-            <label for="name" class="form-label">{{ __('messages.listing_name') }}</label>
-            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $listing->name ?? old('name') }}" required>
-            @error('name')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <button type="submit" class="btn btn-primary">{{ $buttonText }}</button>
-    </form>
+            <button type="submit" class="btn btn-primary">{{ $buttonText }}</button>
+        </form>
+    </div>
 </div>

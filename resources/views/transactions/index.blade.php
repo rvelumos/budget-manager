@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="content-wrapper">
+        <h1 class="text-2xl font-bold mb-4">{{ __('message.transactions') }}</h1>
         <div class="container">
-            <h1>{{ __('Transactions') }}</h1>
             <table class="table">
                 <thead>
                 <tr>
