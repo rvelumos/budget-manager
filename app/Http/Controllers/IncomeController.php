@@ -23,13 +23,18 @@ class IncomeController extends Controller
     public function index(): View|Factory|Application
     {
         $incomes = Income::where('user_id', Auth::id())->with('category')->get();
-        return view('income.index', compact('incomes'));
+        return view('incomes.index', compact('incomes'));
     }
 
-    public function create(): View|Factory|Application
+    public function create(IncomeListing $incomeListing): View|Factory|Application
     {
+
+        if ($incomeListing->user_id !== auth()->id() || auth()->user()->isAdmin()) {
+            abort(403, __('Unauthorized access.'));
+        }
+
         $categories = Category::where('type', 'income')->get();
-        return view('income.create', compact('categories'));
+        return view('incomes.create', compact('categories', 'incomeListing'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -60,7 +65,7 @@ class IncomeController extends Controller
         } catch (AuthorizationException $e) {
         }
         $categories = Category::where('type', 'income')->get();
-        return view('income.edit', compact('income', 'categories'));
+        return view('incomes.edit', compact('income', 'categories'));
     }
 
     public function update(Request $request, Income $income): RedirectResponse

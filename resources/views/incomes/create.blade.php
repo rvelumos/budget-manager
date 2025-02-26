@@ -4,7 +4,7 @@
 <div class="container">
     <h1>{{ __('messages.add_income') }}</h1>
 
-    <form action="{{ route('incomes.store') }}" method="POST">
+    <form action="{{ route('incomes.store', $incomeListing->id) }}" method="POST">
         @csrf
 
         <div class="mb-3">

@@ -63,7 +63,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('income-listings', IncomeListingController::class);
 
     Route::prefix('income-listings/{incomeList}')->group(function () {
-        Route::resource('incomes', IncomeListingController::class)->shallow();
+        Route::resource('incomes', IncomeController::class)->shallow();
     });
 
 //    Route::resource('income-listings', IncomeListingController::class);

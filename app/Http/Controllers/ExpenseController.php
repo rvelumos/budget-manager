@@ -24,9 +24,13 @@ class ExpenseController extends Controller
         return view('expenses.index', compact('expenseList', 'expenses'));
     }
 
-    public function create(ExpenseListing $expenseList): View|Factory|Application
+    public function create(ExpenseListing $expenseListing): View|Factory|Application
     {
-        return view('expenses.create', compact('expenseList'));
+        if ($expenseListing->user_id !== auth()->id() || auth()->user()->isAdmin()) {
+            abort(403, __('Unauthorized access.'));
+        }
+
+        return view('expenses.create', compact('expenseListing'));
     }
 
     public function store(Request $request, ExpenseListing $expenseList): RedirectResponse
