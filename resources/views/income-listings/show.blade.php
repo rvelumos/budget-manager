@@ -16,7 +16,9 @@
             <div class="card-body">
                 <p><strong>{{ __('messages.total_income') }}: </strong> {{ $incomeListing->incomes->sum('amount') }}</p>
 
-                <a href="{{ route('income-listings.edit', $incomeListing->id) }}" class="btn btn-warning">{{ __('messages.edit_listing') }}</a>
+                <button type="submit" class="btn btn-primary">
+                    <a href="{{ route('income-listings.edit', $incomeListing->id) }}" class="btn btn-warning">{{ __('messages.edit_listing') }}</a>
+                </button>
             </div>
         </div>
     </div>

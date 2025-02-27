@@ -116,8 +116,12 @@ main {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.container-small form button,
-.container form button {
+button a {
+    color: white;
+}
+
+.container-small button,
+.container button {
     margin: 20px 0;
     background: salmon;
     color: white;
@@ -129,7 +133,7 @@ main {
     transition: all 0.3s ease-in-out;
 }
 
-.container form button:hover {
+.container button:hover {
     background: darksalmon;
     transition: all 0.3s ease-in-out;
 }

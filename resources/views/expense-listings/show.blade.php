@@ -16,7 +16,9 @@
                 <div class="card-body">
                     <p><strong>{{ __('messages.total_expense') }}: </strong> {{ $expenseListing->expenses->sum('amount') }}</p>
 
-                    <a href="{{ route('expense-listings.edit', $expenseListing->id) }}" class="btn btn-warning">{{ __('messages.edit_listing') }}</a>
+                    <button type="submit" class="btn btn-primary">
+                        <a href="{{ route('expense-listings.edit', $expenseListing->id) }}" class="btn btn-warning">{{ __('messages.edit_listing') }}</a>
+                    </button>
                 </div>
             </div>
         </div>
