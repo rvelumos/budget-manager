@@ -22,7 +22,6 @@ Route::middleware(['setLocale'])->group(function () {
     Route::get('/', function () {
         if (auth()->check()) {
             return redirect()->route('dashboard');
-            //return view('welcome');
         }
         return view('welcome');
     })->name('home');
@@ -65,12 +64,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::prefix('income-listings/{incomeList}')->group(function () {
         Route::resource('incomes', IncomeController::class)->shallow();
     });
-
-//    Route::resource('income-listings', IncomeListingController::class);
-//    Route::resource('income-listings.incomes', IncomeController::class);
-//
-//    Route::resource('expense-listings', ExpenseListingController::class);
-//    Route::resource('expense-listings.expenses', ExpenseController::class);
 
     Route::prefix('transactions')->name('transactions.')->group(function () {
 

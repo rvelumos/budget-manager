@@ -22,7 +22,7 @@ class GateServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Gate::define('admin', function ($user) {
             return $user->is_admin === 1;

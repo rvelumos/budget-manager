@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 
 class TransactionsImport implements ToModel
 {
-    public function model(array $row)
+    public function model(array $row): Transaction
     {
         return new Transaction([
             'user_id'    => auth()->id(),

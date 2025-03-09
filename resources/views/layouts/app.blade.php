@@ -10,9 +10,8 @@
 
 @guest
 <nav>
-{{--    <a href="{{ route('home') }}">{{ __('Home') }}</a>--}}
-        <a href="{{ route('login') }}">{{ __('Login') }}</a>
-        <a href="{{ route('register') }}">{{ __('Register') }}</a>
+    <a href="{{ route('login') }}">{{ __('Login') }}</a>
+    <a href="{{ route('register') }}">{{ __('Register') }}</a>
 
     <form action="{{ route('language.switch') }}" method="POST" style="display:inline;">
         @csrf
@@ -26,7 +25,7 @@
 
 <div class="wrapper">
     @auth
-            @include('components.sidebar')
+        @include('components.sidebar')
     @endauth
 
     <main>
